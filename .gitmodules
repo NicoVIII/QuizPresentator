@@ -1,0 +1,3 @@
+[submodule "ThirdParty/XWT"]
+	path = ThirdParty/XWT
+	url = https://github.com/mono/xwt.git
