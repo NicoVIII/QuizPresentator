@@ -3,7 +3,7 @@ using Xwt;
 
 namespace QuizPresentation {
 	class MainClass {
-		private static Logic.Quiz quiz = Logic.initQuizFromFile("quiz.txt");
+		private static Logic.Quiz quiz;
 		private static QuestionBox questionBox;
 		private static ResultBox resultBox;
 		private static State state = State.START;
@@ -21,6 +21,10 @@ namespace QuizPresentation {
 		[STAThread]
 		static void Main(string[] args)
 		{
+			// Initialize Quiz
+			quiz = Logic.initQuizFromFile(Parameter.QuizFilePath);
+
+			// Init Gui
 			Initializer.Initialize();
 			var mainWindow = new Window()
 			{
@@ -44,7 +48,7 @@ namespace QuizPresentation {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			//upperHalf.PackStart(new Label("Picture"));
-			resultBox = new ResultBox(quiz.Size, Parameter.NrOfParties);
+			resultBox = new ResultBox(quiz.Size, quiz.NrOfParties);
 			upperHalf.PackEnd(resultBox);
 
 			// Lower half
