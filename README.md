@@ -4,7 +4,9 @@ The goal of this project is to provide a tool to simply present a quiz. It shoul
 ## Customisation
 ### Questions
 Questions can be customised via the quiz.txt file. Every question has to be in one line and the parameter have to be seperated by ":".
+
 This are the six arguments which are necessary to define a question:
+
 1. Question
 2. Correct answer (use a letter A-D in upper or lower case or a number 1-4)
 3. Answer 1
