@@ -21,7 +21,6 @@ namespace QuizPresentation {
 		[STAThread]
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Läuft jo!");
 			Initializer.Initialize();
 			var mainWindow = new Window()
 			{
