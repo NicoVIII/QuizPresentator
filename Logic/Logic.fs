@@ -104,14 +104,15 @@ let rec addQuestionsFromLines lines quiz =
         quiz
     
 let initQuizFromFile filePath =
-    match readLines filePath with
+    let lines = readLines filePath
+    match lines with
     | [] -> failwith "file is empty"
-    | partiesString::lines ->
+    | partiesString::questionLines ->
         match System.Int32.TryParse(partiesString) with
         // First line is a single integer
         | (true,parties) -> 
             let quiz = emptyQuiz parties
-            addQuestionsFromLines lines quiz
+            addQuestionsFromLines questionLines quiz
         | _ -> 
             let quiz = emptyQuiz 1
             addQuestionsFromLines lines quiz

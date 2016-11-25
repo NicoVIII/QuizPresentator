@@ -1,6 +1,5 @@
 ﻿namespace QuizPresentation {
 	public sealed class Parameter {
-		public readonly static int NrOfParties = 2;
 		/// <summary>
 		/// The color of the background of used boxes.
 		/// </summary>
