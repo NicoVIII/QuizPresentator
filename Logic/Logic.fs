@@ -13,14 +13,14 @@ let indexFromString string =
     | _ -> failwith "no valid string from AnswerIndex"
 
 type Question = {question: QuestionString; answers: AnswerString * AnswerString * AnswerString * AnswerString; correct: AnswerIndex}
-type public Quiz = {questions: Question list; results: bool list; nrOfQuestions: int}
+type public Quiz = {questions: Question list; results: bool list; nrOfQuestions: int; nrOfParties: int}
 
 // Creation
 let private question question correct answerA answerB answerC answerD = {question = Question question; answers = (answerA, answerB, answerC, answerD); correct = correct}
-let private emptyQuiz = {questions = []; results = []; nrOfQuestions = 0}
+let private emptyQuiz parties = {questions = []; results = []; nrOfQuestions = 0; nrOfParties = parties}
 let private addQuestion quiz question =
     match quiz with
-    | {questions = questions; results = results; nrOfQuestions = length} -> {questions = questions @ [question]; results = results; nrOfQuestions = length + 1}
+    | {questions = questions; nrOfQuestions = length} -> {quiz with questions = questions @ [question]; nrOfQuestions = length + 1}
 
 (*let initQuiz =
     let quiz = emptyQuiz
@@ -36,13 +36,13 @@ let private getQuestion quiz =
 let private getAnswers quiz =
     match getQuestion quiz with
     | None -> ("", "", "", "")
-    | Some {question = _; answers = answers; correct = _} -> answers
+    | Some {answers = answers} -> answers
 
 // Getter for Gui
 let getQuestionString quiz =
     match getQuestion quiz with
     | None -> ""
-    | Some {question = Question question; answers = _; correct = _} -> question
+    | Some {question = Question question} -> question
 
 let private getAnswerString answerIndex quiz =
     let (aA, aB, aC, aD) = getAnswers quiz
@@ -52,11 +52,13 @@ let getAnswerB = getAnswerString B
 let getAnswerC = getAnswerString C
 let getAnswerD = getAnswerString D
 
-let getLength {questions = _; results = _; nrOfQuestions = length} = length
+let getLength {nrOfQuestions = length} = length
 
-let getResults  {questions = _; results = results; nrOfQuestions = _} = results
+let getResults {results = results} = results
 
-let isEnded {questions = questions; results = _; nrOfQuestions = _} =
+let getNrOfParties {nrOfParties = parties} = parties
+
+let isEnded {questions = questions} =
     match questions with
     | [] -> true
     | question::_ -> false
@@ -71,10 +73,10 @@ let chooseAnswer quiz answer =
     match quiz with
     | {questions = []} ->
         failwith "Quiz has no valid state. No question to choose an answer from!"
-    | {questions = _::restQuestions; results = results; nrOfQuestions = length} ->
+    | {questions = _::restQuestions; results = results} ->
         match checkAnswer quiz answer with
-        | true -> {questions = restQuestions; results = results @ [true]; nrOfQuestions = length}
-        | false -> {questions = restQuestions; results = results @ [false]; nrOfQuestions = length}
+        | true -> {quiz with questions = restQuestions; results = results @ [true]}
+        | false -> {quiz with questions = restQuestions; results = results @ [false]}
 
 // Questions from file
 let readLines filePath = 
@@ -100,14 +102,19 @@ let rec addQuestionsFromLines lines quiz =
         addQuestionsFromLines rest quiz'
     | [] ->
         quiz
-
-let addQuestionsFromFile filePath quiz =
-    let lines = readLines filePath
-    addQuestionsFromLines lines quiz
     
 let initQuizFromFile filePath =
-    let quiz = emptyQuiz
-    addQuestionsFromFile filePath quiz
+    match readLines filePath with
+    | [] -> failwith "file is empty"
+    | partiesString::lines ->
+        match System.Int32.TryParse(partiesString) with
+        // First line is a single integer
+        | (true,parties) -> 
+            let quiz = emptyQuiz parties
+            addQuestionsFromLines lines quiz
+        | _ -> 
+            let quiz = emptyQuiz 1
+            addQuestionsFromLines lines quiz
 
 // Define object functions for use in C#
 type Quiz with
@@ -118,6 +125,7 @@ type Quiz with
     member this.AnswerD = getAnswerD this
     member this.Size = getLength this
     member this.Ended = isEnded this
+    member this.NrOfParties = getNrOfParties this
     member this.Results = getResults this
     member this.CheckAnswer index = checkAnswer this index
     member this.ChooseAnswer index = chooseAnswer this index

@@ -12,6 +12,8 @@
 
 		public readonly static Xwt.Drawing.Color WrongAnswerColor = Xwt.Drawing.Colors.DarkRed;
 
+		public readonly static string QuizFilePath = "quiz.txt";
+
 		// Make constructor private to avoid instantiation
 		private Parameter() {
 			// Nothing to do
