@@ -3,7 +3,7 @@ using Xwt;
 
 namespace QuizPresentation {
 	class MainClass {
-		private static Logic.Quiz quiz = Logic.initQuiz;
+		private static Logic.Quiz quiz = Logic.initQuizFromFile("quiz.txt");
 		private static QuestionBox questionBox;
 		private static ResultBox resultBox;
 		private static State state = State.START;
