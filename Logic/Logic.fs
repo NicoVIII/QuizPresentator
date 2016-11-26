@@ -79,13 +79,9 @@ let chooseAnswer quiz answer =
         | false -> {quiz with questions = restQuestions; results = results @ [false]}
 
 // Questions from file
-let readLines filePath = 
-    let lines = System.IO.File.ReadLines(filePath)
-    List.ofSeq lines
+let readLines filePath = System.IO.File.ReadLines(filePath) |> List.ofSeq
 
-let getArgsFromLine (line : string) =
-    let args = line.Split ';'
-    List.ofArray args
+let getArgsFromLine (line : string) = line.Split ';' |> List.ofArray |> List.map (fun el -> el.Trim ' ')
 
 let addQuestionFromLine (line : string) quiz =
     let args = getArgsFromLine line
