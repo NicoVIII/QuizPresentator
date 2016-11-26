@@ -14,7 +14,7 @@ I use "SourceTree" to manage git.
 
 ## Customisation
 ### Questions
-Questions can be customised via the quiz.txt file. Every question has to be in one line and the parameter have to be seperated by ":".
+Questions can be customised via the quiz.txt file. Every question has to be in one line and the parameter have to be seperated by ";".
 
 This are the six arguments which are necessary to define a question:
 

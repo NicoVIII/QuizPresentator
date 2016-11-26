@@ -84,7 +84,7 @@ let readLines filePath =
     List.ofSeq lines
 
 let getArgsFromLine (line : string) =
-    let args = line.Split ':'
+    let args = line.Split ';'
     List.ofArray args
 
 let addQuestionFromLine (line : string) quiz =
