@@ -66,8 +66,9 @@ let rec private countResults quiz results offset =
             match result with
             | true -> 1 + countResults quiz rest ((getNrOfParties quiz) - 1)
             | false -> countResults quiz rest ((getNrOfParties quiz) - 1)
-        | _ -> 
+        | _ when offset < getNrOfParties quiz -> 
             countResults quiz rest (offset - 1)
+        | _ -> failwith "Invalid Party index"
     | [] -> 0
 
 let getResultForParty quiz party =
