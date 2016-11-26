@@ -58,6 +58,22 @@ let getResults {results = results} = results
 
 let getNrOfParties {nrOfParties = parties} = parties
 
+let rec private countResults quiz results offset =
+    match results with
+    | result::rest ->
+        match offset with
+        | 0 ->
+            match result with
+            | true -> 1 + countResults quiz rest ((getNrOfParties quiz) - 1)
+            | false -> countResults quiz rest ((getNrOfParties quiz) - 1)
+        | _ -> 
+            countResults quiz rest (offset - 1)
+    | [] -> 0
+
+let getResultForParty quiz party =
+    let results = getResults quiz
+    countResults quiz results party
+
 let isEnded {questions = questions} =
     match questions with
     | [] -> true
