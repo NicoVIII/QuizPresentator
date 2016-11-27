@@ -2,6 +2,9 @@
 The goal of this project is to provide a tool to simply present a quiz. It should be a tool for a moderator of a quiz on a party or something similar.
 
 ## Development
+### Versioning
+I will try to stick to Semantic Versioning 2.0.0 (http://semver.org/spec/v2.0.0.html).
+
 ### Used Tools
 I write the C# code for the most of the GUI in "Xamarin Studio".
 
