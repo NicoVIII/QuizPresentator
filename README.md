@@ -3,7 +3,7 @@ The goal of this project is to provide a tool to simply present a quiz. It shoul
 
 ## Development
 ### Used Tools
-I write the C# code for the most of the GUI and project management in "Xamarin Studio".
+I write the C# code for the most of the GUI in "Xamarin Studio".
 
 The F# code is written in "Visual Studio Code" with the F#-Plugin from Ionide.
 
