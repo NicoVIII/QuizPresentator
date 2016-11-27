@@ -25,7 +25,34 @@ namespace QuizPresentation {
 			quiz = Logic.initQuizFromFile(Parameter.QuizFilePath);
 
 			// Init Gui
-			var mainWindow = Initializer.Initialize();
+			#if WIN
+			Application.Initialize(ToolkitType.Gtk);
+			var mainWindow = new Window()
+			{
+				Title = "Quizpresentation",
+
+				Decorated = true,
+				FullScreen = true
+			};
+			#elif MAC
+			Application.Initialize(ToolkitType.Gtk);
+			var mainWindow = new Window()
+			{
+				Title = "Quizpresentation",
+
+				Width = 800,
+				Height = 600
+			};
+			#else
+			Application.Initialize(ToolkitType.Gtk);
+			var mainWindow = new Window()
+			{
+				Title = "Quizpresentation",
+
+				Decorated = true,
+				FullScreen = true
+			};
+			#endif
 
 			// Initialize question screen
 			Box outerContainer = new VBox();

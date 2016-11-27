@@ -32,6 +32,24 @@
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '10.0' OR '$(VisualStudioVersion)' == '11.0'">
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - Windows|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug - Windows</OutputPath>
+    <DefineConstants></DefineConstants>
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - Windows|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release - Windows</OutputPath>
+    <DefineConstants></DefineConstants>
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - macOS|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release - macOS</OutputPath>
+    <DefineConstants></DefineConstants>
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />

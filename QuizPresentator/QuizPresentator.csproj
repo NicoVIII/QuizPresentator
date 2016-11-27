@@ -23,11 +23,39 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - macOS|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug - macOS</OutputPath>
+    <DefineConstants>DEBUG; MAC</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - macOS|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release - macOS</OutputPath>
+    <DefineConstants>MAC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - Windows|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug - Windows</OutputPath>
+    <DefineConstants>DEBUG; WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - Windows|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release - Windows</OutputPath>
+    <DefineConstants>WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parameter.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="QuestionBox.cs" />
     <Compile Include="QuestionComponentBox.cs" />
     <Compile Include="ResultBox.cs" />
