@@ -5,7 +5,7 @@ The goal of this project is to provide a tool to simply present a quiz. It shoul
 Use "space" to go through the screens. If there is a question, use the F1-F4 keys or 1-4 keys to choose an answer. Use "space" again to show the result and another time to go to the next question.
 
 ## Customisation
-Questions can be customised via the quiz.txt file. Every question has to be in one line and the parameter have to be seperated by ":".
+Questions can be customised via the quiz.txt file. Every question has to be in one line and the parameter have to be seperated by a semicolon (";").
 
 This are the six arguments which are necessary to define a question:
 
