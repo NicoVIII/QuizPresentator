@@ -33,8 +33,12 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>cp -R "${SolutionDir}/ThirdParty/XWT/Xwt.Gtk/bin/Debug/." "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -48,8 +52,18 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>cp -R "${SolutionDir}/ThirdParty/XWT/Xwt.Gtk/bin/Release/." "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/release.sh "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
+          <pauseExternalConsole>True</pauseExternalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -113,7 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Logic">
