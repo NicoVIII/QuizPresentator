@@ -22,12 +22,6 @@ let private addQuestion quiz question =
     match quiz with
     | {questions = questions; nrOfQuestions = length} -> {quiz with questions = questions @ [question]; nrOfQuestions = length + 1}
 
-(*let initQuiz =
-    let quiz = emptyQuiz
-    let quiz' = addQuestion quiz (question "Testfrage! Eine sehr sehr lange Testfrage, um die Zeilenumbrüche etc. zu testen! BOAH wie geil!" A "Answer A" "Answer B" "Answer C" "Answer D")
-    let quiz'' = addQuestion quiz' (question "Dies ist die zweite Frage! Unglaublich..." B "Answer A2" "Answer B2" "Answer C2" "Answer R2D2")
-    quiz''*)
-
 // Simple Getter
 let private getQuestion quiz =
     match quiz with
@@ -92,7 +86,7 @@ let chooseAnswer quiz answer =
         failwith "Quiz has no valid state. No question to choose an answer from!"
     | {questions = _::restQuestions; results = results} ->
         match checkAnswer quiz answer with
-        | true -> {quiz with questions = restQuestions; results = results @ [true]}
+        | true  -> {quiz with questions = restQuestions; results = results @ [true]}
         | false -> {quiz with questions = restQuestions; results = results @ [false]}
 
 // Questions from file
@@ -111,24 +105,22 @@ let addQuestionFromLine (line : string) quiz =
 let rec addQuestionsFromLines lines quiz =
     match lines with
     | line::rest ->
-        let quiz' = addQuestionFromLine line quiz
-        addQuestionsFromLines rest quiz'
+        quiz |> addQuestionFromLine line |> addQuestionsFromLines rest
     | [] ->
         quiz
     
 let initQuizFromFile filePath =
     let lines = readLines filePath
     match lines with
-    | [] -> failwith "file is empty"
+    | [] ->
+        failwith "file is empty"
     | partiesString::questionLines ->
         match System.Int32.TryParse(partiesString) with
         // First line is a single integer
-        | (true,parties) -> 
-            let quiz = emptyQuiz parties
-            addQuestionsFromLines questionLines quiz
-        | _ -> 
-            let quiz = emptyQuiz 1
-            addQuestionsFromLines lines quiz
+        | (true,parties) ->
+            emptyQuiz parties |> addQuestionsFromLines questionLines
+        | _ ->
+            emptyQuiz 1 |> addQuestionsFromLines lines
 
 // Define object functions for use in C#
 type Quiz with
@@ -141,5 +133,6 @@ type Quiz with
     member this.Ended = isEnded this
     member this.NrOfParties = getNrOfParties this
     member this.Results = getResults this
+    member this.ResultOfParty party = getResultForParty this party
     member this.CheckAnswer index = checkAnswer this index
     member this.ChooseAnswer index = chooseAnswer this index
