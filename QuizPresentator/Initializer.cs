@@ -9,8 +9,18 @@ namespace QuizPresentation {
 			// Nothing to do
 		}
 
-		public static void Initialize() {
+		public static Window Initialize() {
 			Application.Initialize(ToolkitType.Gtk);
+			return new Window()
+			{
+				Title = "Quizpresentation",
+
+				Width = 800,
+				Height = 600//*/
+
+				/*Decorated = true,
+				FullScreen = true//*/
+			};
 		}
 	}
 }

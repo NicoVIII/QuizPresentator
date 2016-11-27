@@ -25,17 +25,7 @@ namespace QuizPresentation {
 			quiz = Logic.initQuizFromFile(Parameter.QuizFilePath);
 
 			// Init Gui
-			Initializer.Initialize();
-			var mainWindow = new Window()
-			{
-				Title = "Quizpresentation",
-
-				Width = 800,
-				Height = 600
-
-				/*Decorated = true,
-				FullScreen = true*/
-			};
+			var mainWindow = Initializer.Initialize();
 
 			// Initialize question screen
 			Box outerContainer = new VBox();
@@ -57,6 +47,11 @@ namespace QuizPresentation {
 
 			// Initialize keyboard listener
 			mainWindow.Content.KeyPressed += (sender, e) => {
+				// Enable Escape Key
+				if (e.Key == Xwt.Key.Escape) {
+					Application.Exit();
+				}
+
 				switch (state) {
 					case State.START:
 						// Does the same as result atm
@@ -108,9 +103,9 @@ namespace QuizPresentation {
 						if (e.Key.Equals(Xwt.Key.Space)) {
 							resultBox.Update(quiz);
 							questionBox.Update(quiz);
-							if (quiz.Ended)
+							if (quiz.Ended) {
 								state = State.END;
-							else
+							} else
 								state = State.WAIT_FOR_ANSWER;
 						}
 						break;
