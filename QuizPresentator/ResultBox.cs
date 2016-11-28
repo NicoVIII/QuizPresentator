@@ -22,7 +22,8 @@ namespace QuizPresentation {
 			labels = new Label[nrOfQuestions];
 			for (int i = 0; i < nrOfQuestions; i++) {
 				Label label = new Label("Frage " + (Math.Floor((double) i/nrOfParties) + 1));
-				label.Margin = new WidgetSpacing(top: 5, bottom: 5, left: 15, right: 15);
+				label.Margin = new WidgetSpacing(top: 15, bottom: 15, left: 20, right: 20);
+				label.Font = label.Font.WithSize(Parameter.FontSize);
 
 				boxes[i % nrOfParties].PackStart(label);
 				labels[i] = label;
