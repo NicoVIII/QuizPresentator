@@ -49,7 +49,7 @@ namespace QuizPresentation {
 			{
 				Title = "Quizpresentation",
 
-				Decorated = true,
+				Decorated = false,
 				FullScreen = true
 			};
 			#endif
