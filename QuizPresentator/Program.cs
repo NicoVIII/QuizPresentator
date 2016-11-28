@@ -26,12 +26,12 @@ namespace QuizPresentation {
 
 			// Init Gui
 			#if WIN
-			Application.Initialize(ToolkitType.Gtk);
+			Application.Initialize(ToolkitType.Wpf);
 			var mainWindow = new Window()
 			{
 				Title = "Quizpresentation",
 
-				Decorated = true,
+				Decorated = false,
 				FullScreen = true
 			};
 			#elif MAC

@@ -15,11 +15,11 @@ namespace QuizPresentation {
 			this.MinWidth = 10;
 
 			// Init Label
-			label.Margin = new WidgetSpacing(5, 5, 5, 5);
-			// TODO does not work, maybe implement custom version
-			//label.Wrap = WrapMode.Word;
+			label.Margin = new WidgetSpacing(15, 15, 15, 15);
+			label.Font = label.Font.WithSize(Parameter.FontSize);
+			label.Wrap = WrapMode.Word;
 
-			this.PackStart(label);
+			this.PackStart(label, true);
 		}
 
 		public void SetText(string text) {

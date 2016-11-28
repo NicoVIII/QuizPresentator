@@ -33,8 +33,12 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>cp -R "${SolutionDir}/ThirdParty/XWT/Xwt.Gtk/bin/Debug/." "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -48,8 +52,18 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>cp -R "${SolutionDir}/ThirdParty/XWT/Xwt.Gtk/bin/Release/." "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>/bin/sh build/release.sh "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
+          <pauseExternalConsole>True</pauseExternalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -65,8 +79,14 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>Copy /Y "${SolutionDir}\ThirdParty\XWT\Xwt.WPF\bin\Debug\*" "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>build\clean.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -80,8 +100,19 @@
     <CustomCommands>
       <CustomCommands>
         <Command>
-          <type>BeforeBuild</type>
-          <command>Copy /Y "${SolutionDir}\ThirdParty\XWT\Xwt.WPF\bin\Release\*" "${TargetDir}"</command>
+          <type>AfterBuild</type>
+          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>build\release.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>build\clean.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -128,6 +159,7 @@
     <None Include="changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
