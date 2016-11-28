@@ -1,5 +1,6 @@
 ﻿using System;
 using Xwt;
+using Xwt.Drawing;
 
 namespace QuizPresentation {
 	class MainClass {
@@ -64,7 +65,12 @@ namespace QuizPresentation {
 			outerContainer.PackStart(upperHalf, expand: true, fill: true);
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
-			//upperHalf.PackStart(new Label("Picture"));
+			// Imageview
+			Image image = Image.FromFile("images/example.png").WithSize(200, 200);
+			ImageView imageView = new ImageView(image);
+			upperHalf.PackStart(imageView, true);
+
+			// ResultBox
 			resultBox = new ResultBox(quiz.Size, quiz.NrOfParties);
 			upperHalf.PackEnd(resultBox);
 
