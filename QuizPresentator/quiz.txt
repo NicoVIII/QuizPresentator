@@ -1,3 +1,3 @@
 2
 Wie lautet der wissenschaftliche Name der Pflanzengattung "Eiche"? ; 3 ; Lacertidae ; Picidae ; Quercus ; Fagus
-Aus welchem Land stammt das älteste bekannte Rezept für Kartoffelchips ursprünglich? ; 3 ; England ; Deutschland ; Belgien ; USA
+Aus welchem Land stammt das älteste bekannte Rezept für Kartoffelchips ursprünglich? ; 1 ; England ; Deutschland ; Belgien ; USA
