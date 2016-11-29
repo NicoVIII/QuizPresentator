@@ -7,6 +7,7 @@ namespace QuizPresentation {
 		// TODO think about using quiz locally to avoid assertion in Update
 		private VBox[] boxes;
 		private Label[] labels;
+		private readonly static string PointsPattern = "{0} Punkte";
 
 		public ResultBox(int nrOfQuestions, int nrOfParties) {
 			// Init Boxes
@@ -19,7 +20,8 @@ namespace QuizPresentation {
 			}
 
 			// Init Labels
-			labels = new Label[nrOfQuestions];
+			labels = new Label[nrOfQuestions + nrOfParties];
+			// Question Labels
 			for (int i = 0; i < nrOfQuestions; i++) {
 				Label label = new Label("Frage " + (Math.Floor((double) i/nrOfParties) + 1));
 				label.Margin = new WidgetSpacing(top: 15, bottom: 15, left: 20, right: 20);
@@ -27,6 +29,15 @@ namespace QuizPresentation {
 
 				boxes[i % nrOfParties].PackStart(label);
 				labels[i] = label;
+			}
+			// Result Labels
+			for (int i = 0; i < nrOfParties; i++) {
+				Label label = new Label(String.Format(PointsPattern, 0));
+				label.Margin = new WidgetSpacing(top: 25, bottom: 15, left: 20, right: 20);
+				label.Font = label.Font.WithWeight(Xwt.Drawing.FontWeight.Bold).WithSize(Parameter.FontSize);
+
+				boxes[i].PackStart(label);
+				labels[nrOfQuestions + i] = label;
 			}
 		}
 
@@ -51,6 +62,11 @@ namespace QuizPresentation {
 				else {
 					labels[i].TextColor = Xwt.Drawing.Colors.Black;
 				}
+			}
+
+			// Fill result
+			for (int i = 0; i < quiz.NrOfParties; i++) {
+				labels[quiz.nrOfQuestions + i].Text = String.Format(PointsPattern, quiz.ResultOfParty(i));
 			}
 		}
 	}

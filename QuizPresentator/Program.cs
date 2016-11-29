@@ -132,6 +132,7 @@ namespace QuizPresentation {
 							questionBox.Update(quiz);
 							if (quiz.Ended) {
 								state = State.END;
+								questionBox.Hide();
 							} else
 								state = State.WAIT_FOR_ANSWER;
 						}
