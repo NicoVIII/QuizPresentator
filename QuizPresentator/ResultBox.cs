@@ -42,8 +42,6 @@ namespace QuizPresentation {
 		}
 
 		public void Update(Logic.Quiz quiz) {
-			Debug.Assert(quiz.Size == labels.Length);
-
 			// Color question labels
 			for (int i = 0; i < quiz.Size; i++) {
 				// Already answered questions
