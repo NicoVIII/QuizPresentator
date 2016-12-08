@@ -5,32 +5,22 @@ namespace QuizPresentation {
 	/// <summary>
 	/// Box, which is used to display the question or an answer
 	/// </summary>
-	public class QuestionComponentBox : HBox {
-		private Label label = new Label();
-		private HBox hBox = new HBox();
+	public class QuestionComponentBox : Canvas {
+		string text;
 
 		public QuestionComponentBox() {
-			this.BackgroundColor = Parameter.BoxBorderColor;
-			hBox.BackgroundColor = Parameter.BoxBackgroundColor;
-			hBox.Margin = new WidgetSpacing(3, 3, 3, 3);
+		}
 
-			// Init Label
-			label.Margin = new WidgetSpacing(12, 12, 12, 12);
-			label.Font = label.Font.WithSize(Parameter.FontSize);
-			label.Wrap = WrapMode.Word;
-
-			this.PackStart(hBox, true);
-			hBox.PackStart(label, true);
+		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
+			ctx.Rectangle(new Rectangle(0, 0, dirtyRect.Height, dirtyRect.Height));
 		}
 
 		public void SetBorder(int border) {
-			int margin = 15;
-			hBox.Margin = new WidgetSpacing(border, border, border, border);
-			label.Margin = new WidgetSpacing(margin - border, margin - border, margin - border, margin - border);
+			
 		}
 
 		public void SetText(string text) {
-			label.Text = text;
+			this.text = text;
 		}
 	}
 }
