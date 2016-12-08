@@ -9,47 +9,42 @@ namespace QuizPresentation {
 	public class QuestionComponentBox : Canvas {
 		Label label = new Label();
 		Color borderColor;
-		int border = 4;
 
 		public QuestionComponentBox() {
 			this.BoundsChanged += (sender, e) => {
-				label.WidthRequest = Math.Max(Size.Width - label.MarginLeft - label.MarginRight, 1);
-				HeightRequest = label.Size.Height + label.MarginTop + label.MarginBottom;
-				label.MarginLeft = HeightRequest / 2;
-				label.MarginRight = HeightRequest / 2;
-				Clear();
-				AddChild(label, label.MarginLeft, label.MarginTop);
+				int prefHeight = (int) label.Surface.GetPreferredSize(Math.Max(Size.Width - 2 * Parameter.BorderRadius, 1), SizeConstraint.Unconstrained).Height;
+				HeightRequest = prefHeight + 2*Parameter.BorderRadius - 5;
+				SetChildBounds(label, new Rectangle(Parameter.BorderRadius, Parameter.BorderRadius, Size.Width - 2 * Parameter.BorderRadius, prefHeight));
 				QueueDraw();
 			};
 
 			label.Font = label.Font.WithSize(Parameter.FontSizeQuestion);
 			label.Wrap = WrapMode.Word;
-			label.Margin = new WidgetSpacing(left: 20, right: 20, top: 15, bottom: 15);
-			label.MinHeight = label.Font.Size;
+			AddChild(label, Parameter.BorderRadius, Parameter.BorderRadius);
 			OnBoundsChanged();
 			ResetBorderColor();
-
-			SetText("Hey");
 		}
 
 		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
-			ctx.MoveTo(Size.Height / 2, border / 2 + 1 );
-			ctx.LineTo(border / 2 + 1, Size.Height / 2);
-			ctx.LineTo(Size.Height / 2, Size.Height - (border / 2 + 1));
-			ctx.LineTo(Size.Width - (Size.Height / 2), Size.Height - (border / 2 + 1));
-			ctx.LineTo(Size.Width - (border / 2 + 1), Size.Height / 2);
-			ctx.LineTo(Size.Width - (Size.Height / 2), (border / 2 + 1));
+			ctx.MoveTo(Parameter.BorderRadius, Parameter.BorderWidth / 2);
+			ctx.LineTo(Parameter.BorderWidth / 2, Parameter.BorderRadius);
+			ctx.LineTo(Parameter.BorderWidth / 2, Size.Height - Parameter.BorderRadius);
+			ctx.LineTo(Parameter.BorderRadius, Size.Height - (Parameter.BorderWidth / 2));
+			ctx.LineTo(Size.Width - Parameter.BorderRadius, Size.Height - (Parameter.BorderWidth / 2));
+			ctx.LineTo(Size.Width - (Parameter.BorderWidth / 2), Size.Height - Parameter.BorderRadius);
+			ctx.LineTo(Size.Width - (Parameter.BorderWidth / 2), Parameter.BorderRadius);
+			ctx.LineTo(Size.Width - Parameter.BorderRadius, Parameter.BorderWidth / 2);
+			ctx.ClosePath();
 			ctx.SetColor(Parameter.BoxBackgroundColor);
 			ctx.FillPreserve();
+			ctx.SetLineWidth(Parameter.BorderWidth);
 			ctx.SetColor(borderColor);
-			ctx.ClosePath();
-			ctx.SetLineWidth(border);
 			ctx.Stroke();
 		}
 
 		public void SetText(string text) {
 			label.Text = text;
-			this.OnBoundsChanged();
+			OnBoundsChanged();
 			QueueDraw();
 		}
 

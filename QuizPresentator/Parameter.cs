@@ -15,6 +15,8 @@
 
 		public readonly static int FontSizeResult = 20;
 		public readonly static int FontSizeQuestion = 22;
+		public readonly static int BorderRadius = 16;
+		public readonly static int BorderWidth = 4;
 
 		public readonly static string QuizFilePath = "quiz.txt";
 

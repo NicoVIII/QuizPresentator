@@ -65,7 +65,7 @@ namespace QuizPresentation {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			//upperHalf.PackStart(new Label("Picture"));
-			resultBox = new ResultBox(quiz.Size, quiz.NrOfParties);
+			resultBox = new ResultBox(quiz.Size/quiz.NrOfParties);
 			upperHalf.PackEnd(resultBox);
 
 			// Lower half
