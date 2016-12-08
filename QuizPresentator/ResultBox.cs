@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	public class ResultBox : Canvas {
 		// TODO think about using quiz locally
 		private VBox box;
 		private Label[] labels;
+		private int nrOfQuestions;
 		private readonly static string PointsPattern = "{0} Punkte";
 
 		public ResultBox(int nrOfQuestions) {
+			this.nrOfQuestions = nrOfQuestions;
 			this.Margin = new WidgetSpacing(3, 3, 3, 3);
 			this.MinHeight = 2 * Parameter.BorderRadius;
 
@@ -64,33 +67,31 @@ namespace QuizPresentation {
 			ctx.Stroke();
 		}
 
-		public void Update(Logic.Quiz quiz) {
-			QueueDraw();
+		public void Update(List<bool> resultList, int resultOfParty, bool act) {
 			// Color question labels
-			// TODO
-			/*for (int i = 0; i < quiz.Size; i++) {
+			for (int i = 0; i < labels.Length-1; i++) {
 				// Already answered questions
-				if (i < quiz.Results.Length) {
-					if (quiz.Results[i]) {
-						labels[i].TextColor = Xwt.Drawing.Colors.DarkGreen;
+				if (i < resultList.Count) {
+					if (resultList[i]) {
+						labels[i].TextColor = Colors.DarkGreen;
 					} else {
-						labels[i].TextColor = Xwt.Drawing.Colors.DarkRed;
+						labels[i].TextColor = Colors.DarkRed;
 					}
 				}
 				// Current question
-				else if (i == quiz.Results.Length) {
-					labels[i].TextColor = Xwt.Drawing.Colors.DarkOrange;
+				else if (i == resultList.Count && act) {
+					labels[i].TextColor = Colors.DarkOrange;
 				}
 				// Coming questions
 				else {
-					labels[i].TextColor = Xwt.Drawing.Colors.Black;
+					labels[i].TextColor = Colors.Black;
 				}
 			}
 
 			// Fill result
-			for (int i = 0; i < quiz.NrOfParties; i++) {
-				labels[quiz.nrOfQuestions + i].Text = String.Format(PointsPattern, quiz.ResultOfParty(i));
-			}*/
+			labels[nrOfQuestions].Text = string.Format(PointsPattern, resultOfParty);
+
+			QueueDraw();
 		}
 	}
 }

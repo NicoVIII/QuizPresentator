@@ -2,7 +2,7 @@
 using Xwt.Drawing;
 using System;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	/// <summary>
 	/// Box, which is used to display the question or an answer
 	/// </summary>

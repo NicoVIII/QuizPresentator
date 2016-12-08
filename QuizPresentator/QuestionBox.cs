@@ -1,6 +1,6 @@
 ﻿using Xwt;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	/// <summary>
 	/// Box, which contains Question plus all four answers.
 	/// </summary>

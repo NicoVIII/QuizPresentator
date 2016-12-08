@@ -1,4 +1,4 @@
-﻿module QuizPresentation.Logic
+﻿module QuizPresentator.Logic
 
 type QuestionString = Question of string
 type AnswerString = string
