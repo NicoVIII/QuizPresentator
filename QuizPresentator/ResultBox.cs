@@ -28,8 +28,8 @@ namespace QuizPresentation {
 			// Question Labels
 			for (int i = 0; i < nrOfQuestions; i++) {
 				Label label = new Label("Frage " + (Math.Floor((double) i/nrOfParties) + 1));
-				label.Margin = new WidgetSpacing(top: 15, bottom: 15, left: 20, right: 20);
-				label.Font = label.Font.WithSize(Parameter.FontSize);
+				label.Margin = new WidgetSpacing(top: 12, bottom: 12, left: 20, right: 20);
+				label.Font = label.Font.WithSize(Parameter.FontSizeResult);
 
 				boxes[i % nrOfParties].PackStart(label);
 				labels[i] = label;
@@ -38,7 +38,7 @@ namespace QuizPresentation {
 			for (int i = 0; i < nrOfParties; i++) {
 				Label label = new Label(String.Format(PointsPattern, 0));
 				label.Margin = new WidgetSpacing(top: 25, bottom: 15, left: 20, right: 20);
-				label.Font = label.Font.WithWeight(Xwt.Drawing.FontWeight.Bold).WithSize(Parameter.FontSize);
+				label.Font = label.Font.WithWeight(Xwt.Drawing.FontWeight.Bold).WithSize(Parameter.FontSizeResult);
 
 				boxes[i].PackStart(label);
 				labels[nrOfQuestions + i] = label;
