@@ -10,6 +10,9 @@ namespace QuizPresentation {
 		private static State state = State.START;
 		private static Logic.AnswerIndex choosenAnswer;
 
+		private static ImageView imageView;
+		private static Image image;
+
 		private enum State {
 			// TODO check if this state is necessary or if it could be removed. Result would be the new starting state
 			START,
@@ -66,8 +69,8 @@ namespace QuizPresentation {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			// Imageview
-			Image image = Image.FromFile("images/example.png").WithSize(200, 200);
-			ImageView imageView = new ImageView(image);
+			image = Image.FromFile("images/example.png").WithSize(200, 200);
+			imageView = new ImageView(image);
 			upperHalf.PackStart(imageView, true);
 
 			// ResultBox
@@ -150,11 +153,18 @@ namespace QuizPresentation {
 			};
 			mainWindow.Content.CanGetFocus = true;
 			mainWindow.Content.SetFocus();
-			      
+
 			// Start Application
+			mainWindow.Shown += resizeImage;
+			imageView.BoundsChanged += resizeImage;
+
 			mainWindow.Show();
 			Application.Run();
 			mainWindow.Dispose();
+		}
+
+		private static void resizeImage(object sender, EventArgs e) {
+			imageView.Image = image.WithBoxSize(imageView.Size.Width - 25, imageView.Size.Height - 25);
 		}
 	}
 }
