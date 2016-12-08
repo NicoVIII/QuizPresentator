@@ -25,7 +25,7 @@ I write the C# code for the most of the GUI in "Xamarin Studio" (https://www.xam
 
 The F# code is written in "Visual Studio Code" (https://code.visualstudio.com/) with the F#-Plugin Ionide (http://ionide.io/).
 
-I use "SourceTree" (https://www.sourcetreeapp.com/) to manage git .
+I use "SourceTree" (https://www.sourcetreeapp.com/) to manage git.
 
 ### Used Third-Party Libraries
 * Mono (http://www.mono-project.com/)
