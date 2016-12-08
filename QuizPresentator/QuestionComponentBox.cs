@@ -1,4 +1,5 @@
 ﻿using Xwt;
+using Xwt.Drawing;
 
 namespace QuizPresentation {
 	/// <summary>
@@ -6,20 +7,26 @@ namespace QuizPresentation {
 	/// </summary>
 	public class QuestionComponentBox : HBox {
 		private Label label = new Label();
+		private HBox hBox = new HBox();
 
 		public QuestionComponentBox() {
-			this.BackgroundColor = Parameter.BoxBackgroundColor;
-
-			// Make all used boxes visible, even if the layout is not well configured
-			this.MinHeight = 10;
-			this.MinWidth = 10;
+			this.BackgroundColor = Parameter.BoxBorderColor;
+			hBox.BackgroundColor = Parameter.BoxBackgroundColor;
+			hBox.Margin = new WidgetSpacing(3, 3, 3, 3);
 
 			// Init Label
-			label.Margin = new WidgetSpacing(15, 15, 15, 15);
+			label.Margin = new WidgetSpacing(12, 12, 12, 12);
 			label.Font = label.Font.WithSize(Parameter.FontSize);
 			label.Wrap = WrapMode.Word;
 
-			this.PackStart(label, true);
+			this.PackStart(hBox, true);
+			hBox.PackStart(label, true);
+		}
+
+		public void SetBorder(int border) {
+			int margin = 15;
+			hBox.Margin = new WidgetSpacing(border, border, border, border);
+			label.Margin = new WidgetSpacing(margin - border, margin - border, margin - border, margin - border);
 		}
 
 		public void SetText(string text) {

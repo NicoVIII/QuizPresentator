@@ -13,9 +13,13 @@ namespace QuizPresentation {
 			// Init Boxes
 			boxes = new VBox[nrOfParties];
 			for (int i = 0; i < nrOfParties; i++) {
+				HBox hBox = new HBox();
+				hBox.BackgroundColor = Parameter.BoxBorderColor;
 				VBox box = new VBox();
 				box.BackgroundColor = Parameter.BoxBackgroundColor;
-				PackStart(box);
+				box.Margin = new WidgetSpacing(3, 3, 3, 3);
+				hBox.PackStart(box);
+				this.PackStart(hBox);
 				boxes[i] = box;
 			}
 

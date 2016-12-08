@@ -30,10 +30,14 @@ namespace QuizPresentation {
 
 		public void Update(Logic.Quiz quiz) {
 			// Reset color
-			answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+			answerBoxA.BackgroundColor = Parameter.BoxBorderColor;
+			answerBoxA.SetBorder(3);
+			answerBoxB.BackgroundColor = Parameter.BoxBorderColor;
+			answerBoxB.SetBorder(3);
+			answerBoxC.BackgroundColor = Parameter.BoxBorderColor;
+			answerBoxC.SetBorder(3);
+			answerBoxD.BackgroundColor = Parameter.BoxBorderColor;
+			answerBoxD.SetBorder(3);
 
 			// Update question and answer texts
 			questionBox.SetText(quiz.Question);
@@ -46,24 +50,40 @@ namespace QuizPresentation {
 		public void LogIn(Logic.AnswerIndex index) {
 			if (index.Equals(Logic.AnswerIndex.A)) {
 				answerBoxA.BackgroundColor = Parameter.LogInColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.SetBorder(5);
+				answerBoxB.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxB.SetBorder(3);
+				answerBoxC.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxC.SetBorder(3);
+				answerBoxD.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxD.SetBorder(3);
 			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxA.SetBorder(3);
 				answerBoxB.BackgroundColor = Parameter.LogInColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxB.SetBorder(5);
+				answerBoxC.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxC.SetBorder(3);
+				answerBoxD.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxD.SetBorder(3);
 			} else if(index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxA.SetBorder(3);
+				answerBoxB.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxB.SetBorder(3);
 				answerBoxC.BackgroundColor = Parameter.LogInColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxC.SetBorder(5);
+				answerBoxD.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxD.SetBorder(3);
 			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxA.SetBorder(3);
+				answerBoxB.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxB.SetBorder(3);
+				answerBoxC.BackgroundColor = Parameter.BoxBorderColor;
+				answerBoxC.SetBorder(3);
 				answerBoxD.BackgroundColor = Parameter.LogInColor;
+				answerBoxD.SetBorder(5);
 			}
 		}
 
