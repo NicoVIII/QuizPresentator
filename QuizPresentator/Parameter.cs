@@ -3,7 +3,7 @@
 		/// <summary>
 		/// The color of the background of used boxes.
 		/// </summary>
-		public readonly static Xwt.Drawing.Color BoxBorderColor = Xwt.Drawing.Colors.DarkViolet;
+		public readonly static Xwt.Drawing.Color BoxBorderColor = Xwt.Drawing.Colors.DarkBlue;
 
 		public readonly static Xwt.Drawing.Color BoxBackgroundColor = Xwt.Drawing.Colors.SkyBlue;
 
@@ -13,8 +13,8 @@
 
 		public readonly static Xwt.Drawing.Color WrongAnswerColor = Xwt.Drawing.Colors.Red;
 
-		public readonly static int FontSizeResult = 20;
-		public readonly static int FontSizeQuestion = 22;
+		public readonly static int FontSizeResult = 22;
+		public readonly static int FontSizeQuestion = 26;
 		public readonly static int BorderRadius = 16;
 		public readonly static int BorderWidth = 4;
 
