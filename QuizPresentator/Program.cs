@@ -3,6 +3,46 @@ using Xwt;
 using Xwt.Drawing;
 
 namespace QuizPresentator {
+	class ImageCanvas : Canvas {
+		private Image image;
+		private Rectangle rect;
+
+		public ImageCanvas(Image image) {
+			this.image = image;
+
+			BoundsChanged += (sender, e) => {
+				Size size = image.Size;
+				if (size.Width/size.Height < Size.Width/size.Height) {
+					// Image is higher
+					int width = (int) (size.Width * (Size.Height / size.Height));
+					rect = new Rectangle((Size.Width - width) / 2, 0, width, Size.Height);
+				} else if (size.Width / size.Height > Size.Width / size.Height) {
+					int height = (int) (size.Height * (Size.Width / size.Width));
+					rect = new Rectangle(0, (Size.Height - height) / 2, Size.Width, height);
+				} else {
+					rect = new Rectangle(0, 0, Size.Width, Size.Height);
+				}
+				QueueDraw();
+			};
+		}
+
+		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
+			ctx.MoveTo(Parameter.BorderRadius, 0);
+			ctx.LineTo(0, Parameter.BorderRadius);
+			ctx.LineTo(0, Size.Height - Parameter.BorderRadius);
+			ctx.LineTo(Parameter.BorderRadius, Size.Height);
+			ctx.LineTo(Size.Width - Parameter.BorderRadius, Size.Height);
+			ctx.LineTo(Size.Width, Size.Height - Parameter.BorderRadius);
+			ctx.LineTo(Size.Width, Parameter.BorderRadius);
+			ctx.LineTo(Size.Width - Parameter.BorderRadius, 0);
+			ctx.ClosePath();
+			ctx.SetColor(Colors.LightGray);
+			ctx.Fill();
+
+			ctx.DrawImage(image, rect);
+		}
+	}
+
 	class MainClass {
 		private static Logic.Quiz quiz;
 		private static QuestionBox questionBox;
@@ -10,7 +50,6 @@ namespace QuizPresentator {
 		private static State state = State.START;
 		private static Logic.AnswerIndex choosenAnswer;
 
-		private static ImageView imageView;
 		private static Image image;
 
 		private enum State {
@@ -65,16 +104,15 @@ namespace QuizPresentator {
 
 			// Upper half
 			Box upperHalf = new HBox();
-			outerContainer.PackStart(upperHalf, expand: true, fill: true);
+			outerContainer.PackStart(upperHalf, true, true);
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			// Imageview
 			image = Image.FromFile("images/example.png").WithSize(200, 200);
-			imageView = new ImageView(image);
-			upperHalf.PackStart(imageView, true);
+			ImageCanvas imageCanvas = new ImageCanvas(image);
+			upperHalf.PackStart(imageCanvas, true);
 
 			// ResultBoxes
-			//upperHalf.PackStart(new Label("Picture"));
 			resultBoxes = new ResultBoxes(quiz.Size, quiz.NrOfParties);
 			upperHalf.PackEnd(resultBoxes);
 
@@ -95,30 +133,30 @@ namespace QuizPresentator {
 						goto case State.RESULT;
 					case State.WAIT_FOR_ANSWER:
 						switch (e.Key) {
-							case Xwt.Key.K1:
-							case Xwt.Key.NumPad1:
-							case Xwt.Key.F1:
+							case Key.K1:
+							case Key.NumPad1:
+							case Key.F1:
 								choosenAnswer = Logic.AnswerIndex.A;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
-							case Xwt.Key.K2:
-							case Xwt.Key.NumPad2:
-							case Xwt.Key.F2:
+							case Key.K2:
+							case Key.NumPad2:
+							case Key.F2:
 								choosenAnswer = Logic.AnswerIndex.B;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
-							case Xwt.Key.K3:
-							case Xwt.Key.NumPad3:
-							case Xwt.Key.F3:
+							case Key.K3:
+							case Key.NumPad3:
+							case Key.F3:
 								choosenAnswer = Logic.AnswerIndex.C;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
-							case Xwt.Key.K4:
-							case Xwt.Key.NumPad4:
-							case Xwt.Key.F4:
+							case Key.K4:
+							case Key.NumPad4:
+							case Key.F4:
 								choosenAnswer = Logic.AnswerIndex.D;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
@@ -156,16 +194,9 @@ namespace QuizPresentator {
 			mainWindow.Content.SetFocus();
 
 			// Start Application
-			mainWindow.Shown += resizeImage;
-			imageView.BoundsChanged += resizeImage;
-
 			mainWindow.Show();
 			Application.Run();
 			mainWindow.Dispose();
-		}
-
-		private static void resizeImage(object sender, EventArgs e) {
-			imageView.Image = image.WithBoxSize(imageView.Size.Width - 25, imageView.Size.Height - 25);
 		}
 	}
 }
