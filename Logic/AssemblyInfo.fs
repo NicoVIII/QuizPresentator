@@ -1,4 +1,4 @@
-﻿namespace QuizPresentation
+﻿namespace QuizPresentator
 open System.Reflection
 open System.Runtime.CompilerServices
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using Xwt;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	class MainClass {
 		private static Logic.Quiz quiz;
 		private static QuestionBox questionBox;
-		private static ResultBox resultBox;
+		private static ResultBoxes resultBoxes;
 		private static State state = State.START;
 		private static Logic.AnswerIndex choosenAnswer;
 
@@ -65,8 +65,8 @@ namespace QuizPresentation {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			//upperHalf.PackStart(new Label("Picture"));
-			resultBox = new ResultBox(quiz.Size, quiz.NrOfParties);
-			upperHalf.PackEnd(resultBox);
+			resultBoxes = new ResultBoxes(quiz.Size, quiz.NrOfParties);
+			upperHalf.PackEnd(resultBoxes);
 
 			// Lower half
 			questionBox = new QuestionBox();
@@ -128,7 +128,7 @@ namespace QuizPresentation {
 					case State.RESULT:
 						// Update
 						if (e.Key.Equals(Xwt.Key.Space)) {
-							resultBox.Update(quiz);
+							resultBoxes.Update(quiz);
 							questionBox.Update(quiz);
 							if (quiz.Ended) {
 								state = State.END;

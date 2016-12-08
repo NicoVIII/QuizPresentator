@@ -1,4 +1,4 @@
-﻿namespace QuizPresentation {
+﻿namespace QuizPresentator {
 	public sealed class Parameter {
 		/// <summary>
 		/// The color of the background of used boxes.
@@ -13,7 +13,10 @@
 
 		public readonly static Xwt.Drawing.Color WrongAnswerColor = Xwt.Drawing.Colors.Red;
 
-		public readonly static int FontSize = 22;
+		public readonly static int FontSizeResult = 20;
+		public readonly static int FontSizeQuestion = 22;
+		public readonly static int BorderRadius = 16;
+		public readonly static int BorderWidth = 4;
 
 		public readonly static string QuizFilePath = "quiz.txt";
 
