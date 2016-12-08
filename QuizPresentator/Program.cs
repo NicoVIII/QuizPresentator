@@ -2,11 +2,11 @@
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	class MainClass {
 		private static Logic.Quiz quiz;
 		private static QuestionBox questionBox;
-		private static ResultBox resultBox;
+		private static ResultBoxes resultBoxes;
 		private static State state = State.START;
 		private static Logic.AnswerIndex choosenAnswer;
 
@@ -73,9 +73,10 @@ namespace QuizPresentation {
 			imageView = new ImageView(image);
 			upperHalf.PackStart(imageView, true);
 
-			// ResultBox
-			resultBox = new ResultBox(quiz.Size, quiz.NrOfParties);
-			upperHalf.PackEnd(resultBox);
+			// ResultBoxes
+			//upperHalf.PackStart(new Label("Picture"));
+			resultBoxes = new ResultBoxes(quiz.Size, quiz.NrOfParties);
+			upperHalf.PackEnd(resultBoxes);
 
 			// Lower half
 			questionBox = new QuestionBox();
@@ -137,7 +138,7 @@ namespace QuizPresentation {
 					case State.RESULT:
 						// Update
 						if (e.Key.Equals(Xwt.Key.Space)) {
-							resultBox.Update(quiz);
+							resultBoxes.Update(quiz);
 							questionBox.Update(quiz);
 							if (quiz.Ended) {
 								state = State.END;

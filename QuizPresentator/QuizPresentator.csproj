@@ -26,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - macOS|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug - macOS</OutputPath>
     <DefineConstants>DEBUG; MAC</DefineConstants>
@@ -124,11 +125,11 @@
     <Compile Include="QuestionBox.cs" />
     <Compile Include="QuestionComponentBox.cs" />
     <Compile Include="ResultBox.cs" />
+    <Compile Include="ResultBoxes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
-      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Logic">

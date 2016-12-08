@@ -1,6 +1,6 @@
 ﻿using Xwt;
 
-namespace QuizPresentation {
+namespace QuizPresentator {
 	/// <summary>
 	/// Box, which contains Question plus all four answers.
 	/// </summary>
@@ -30,40 +30,40 @@ namespace QuizPresentation {
 
 		public void Update(Logic.Quiz quiz) {
 			// Reset color
-			answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-			answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+			answerBoxA.ResetBorderColor();
+			answerBoxB.ResetBorderColor();
+			answerBoxC.ResetBorderColor();
+			answerBoxD.ResetBorderColor();
 
 			// Update question and answer texts
 			questionBox.SetText(quiz.Question);
-			answerBoxA.SetText("1: "+quiz.AnswerA);
-			answerBoxB.SetText("2: "+quiz.AnswerB);
-			answerBoxC.SetText("3: "+quiz.AnswerC);
-			answerBoxD.SetText("4: "+quiz.AnswerD);
+			answerBoxA.SetText("A: "+quiz.AnswerA);
+			answerBoxB.SetText("B: "+quiz.AnswerB);
+			answerBoxC.SetText("C: "+quiz.AnswerC);
+			answerBoxD.SetText("D: "+quiz.AnswerD);
 		}
 
 		public void LogIn(Logic.AnswerIndex index) {
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.BackgroundColor = Parameter.LogInColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.SetBorderColor(Parameter.LogInColor);
+				answerBoxB.ResetBorderColor();
+				answerBoxC.ResetBorderColor();
+				answerBoxD.ResetBorderColor();
 			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxB.BackgroundColor = Parameter.LogInColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.ResetBorderColor();
+				answerBoxB.SetBorderColor(Parameter.LogInColor);
+				answerBoxC.ResetBorderColor();
+				answerBoxD.ResetBorderColor();
 			} else if(index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxC.BackgroundColor = Parameter.LogInColor;
-				answerBoxD.BackgroundColor = Parameter.BoxBackgroundColor;
+				answerBoxA.ResetBorderColor();
+				answerBoxB.ResetBorderColor();
+				answerBoxC.SetBorderColor(Parameter.LogInColor);
+				answerBoxD.ResetBorderColor();
 			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxA.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxB.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxC.BackgroundColor = Parameter.BoxBackgroundColor;
-				answerBoxD.BackgroundColor = Parameter.LogInColor;
+				answerBoxA.ResetBorderColor();
+				answerBoxB.ResetBorderColor();
+				answerBoxC.ResetBorderColor();
+				answerBoxD.SetBorderColor(Parameter.LogInColor);
 			}
 		}
 
@@ -71,13 +71,13 @@ namespace QuizPresentation {
 			Xwt.Drawing.Color color = result ? Parameter.CorrectAnswerColor : Parameter.WrongAnswerColor;
 
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.BackgroundColor = color;
+				answerBoxA.SetBorderColor(color);
 			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxB.BackgroundColor = color;
+				answerBoxB.SetBorderColor(color);
 			} else if (index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxC.BackgroundColor = color;
+				answerBoxC.SetBorderColor(color);
 			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxD.BackgroundColor = color;
+				answerBoxD.SetBorderColor(color);
 			}
 		}
 	}
