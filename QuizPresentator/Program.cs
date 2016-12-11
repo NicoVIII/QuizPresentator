@@ -12,18 +12,23 @@ namespace QuizPresentator {
 			this.image = image;
 
 			BoundsChanged += (sender, e) => {
-				Size size = image.Size;
-				if (size.Width/size.Height < Size.Width/Size.Height) {
-					// Image is higher
-					int width = (int) (size.Width * (Size.Height / size.Height));
-					rect = new Rectangle((Size.Width - width) / 2, 0, width, Size.Height);
-				} else if (size.Width / size.Height > Size.Width / Size.Height) {
-					int height = (int) (size.Height * (Size.Width / size.Width));
-					rect = new Rectangle(0, (Size.Height - height) / 2, Size.Width, height);
-				} else {
-					rect = new Rectangle(0, 0, Size.Width, Size.Height);
+				if (this.image != null) {
+					Size boxSize = new Size(Size.Width - 2 * Parameter.BorderRadius, Size.Height - 2 * Parameter.BorderRadius);
+					Size imageSize = this.image.Size;
+					if (imageSize.Width / imageSize.Height < boxSize.Width / boxSize.Height) {
+						// Image is higher
+						int width = (int)(imageSize.Width * (boxSize.Height / imageSize.Height));
+						rect = new Rectangle((boxSize.Width - width) / 2, Parameter.BorderRadius, width, boxSize.Height);
+					}
+					else if (imageSize.Width / imageSize.Height > boxSize.Width / boxSize.Height) {
+						int height = (int)(imageSize.Height * (boxSize.Width / imageSize.Width));
+						rect = new Rectangle(Parameter.BorderRadius, (boxSize.Height - height) / 2, boxSize.Width, height);
+					}
+					else {
+						rect = new Rectangle(Parameter.BorderRadius, Parameter.BorderRadius, boxSize.Width, boxSize.Height);
+					}
+					QueueDraw();
 				}
-				QueueDraw();
 			};
 		}
 
@@ -124,7 +129,7 @@ namespace QuizPresentator {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			// Imageview
-			ImageCanvas imageCanvas = new ImageCanvas(Image.FromFile("images/example.png"));
+			ImageCanvas imageCanvas = new ImageCanvas(null);
 			upperHalf.PackStart(imageCanvas, true);
 
 			// ResultBoxes
