@@ -56,7 +56,7 @@ namespace QuizPresentator {
 			ctx.LineTo(Size.Width, Parameter.BorderRadius);
 			ctx.LineTo(Size.Width - Parameter.BorderRadius, 0);
 			ctx.ClosePath();
-			ctx.SetColor(Colors.LightGray);
+			ctx.SetColor(Color.FromHsl(0, 0, 0.77));
 			ctx.Fill();
 
 			if (image != null)

@@ -30,10 +30,10 @@ namespace QuizPresentator {
 
 		public void Update(Logic.Quiz quiz) {
 			// Reset color
-			answerBoxA.ResetBorderColor();
-			answerBoxB.ResetBorderColor();
-			answerBoxC.ResetBorderColor();
-			answerBoxD.ResetBorderColor();
+			answerBoxA.ResetColors();
+			answerBoxB.ResetColors();
+			answerBoxC.ResetColors();
+			answerBoxD.ResetColors();
 
 			// Update question and answer texts
 			questionBox.SetText(quiz.Question);
@@ -45,39 +45,48 @@ namespace QuizPresentator {
 
 		public void LogIn(Logic.AnswerIndex index) {
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.SetBorderColor(Parameter.LogInColor);
-				answerBoxB.ResetBorderColor();
-				answerBoxC.ResetBorderColor();
-				answerBoxD.ResetBorderColor();
+				answerBoxA.LogIn();
+				answerBoxB.ResetColors();
+				answerBoxC.ResetColors();
+				answerBoxD.ResetColors();
 			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.SetBorderColor(Parameter.LogInColor);
-				answerBoxC.ResetBorderColor();
-				answerBoxD.ResetBorderColor();
+				answerBoxA.ResetColors();
+				answerBoxB.LogIn();
+				answerBoxC.ResetColors();
+				answerBoxD.ResetColors();
 			} else if(index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.ResetBorderColor();
-				answerBoxC.SetBorderColor(Parameter.LogInColor);
-				answerBoxD.ResetBorderColor();
+				answerBoxA.ResetColors();
+				answerBoxB.ResetColors();
+				answerBoxC.LogIn();
+				answerBoxD.ResetColors();
 			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.ResetBorderColor();
-				answerBoxC.ResetBorderColor();
-				answerBoxD.SetBorderColor(Parameter.LogInColor);
+				answerBoxA.ResetColors();
+				answerBoxB.ResetColors();
+				answerBoxC.ResetColors();
+				answerBoxD.LogIn();
 			}
 		}
 
 		public void ShowResult(Logic.AnswerIndex index, bool result) {
-			Xwt.Drawing.Color color = result ? Parameter.CorrectAnswerColor : Parameter.WrongAnswerColor;
+			QuestionComponentBox box;
 
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxB.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxC.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxD.SetBorderColor(color);
+				box = answerBoxA;
+			}
+			else if (index.Equals(Logic.AnswerIndex.B)) {
+				box = answerBoxB;
+			}
+			else if (index.Equals(Logic.AnswerIndex.C)) {
+				box = answerBoxC;
+			}
+			else /*if (index.Equals(Logic.AnswerIndex.D)) */{
+				box = answerBoxD;
+			}
+
+			if (result) {
+				box.Correct();
+			} else {
+				box.Wrong();
 			}
 		}
 	}

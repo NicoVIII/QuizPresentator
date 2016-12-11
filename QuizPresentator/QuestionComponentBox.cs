@@ -8,11 +8,11 @@ namespace QuizPresentator {
 	/// </summary>
 	public class QuestionComponentBox : Canvas {
 		Label label = new Label();
-		Color borderColor;
+		Color borderColor, backgroundColor;
 
 		public QuestionComponentBox() {
 			this.BoundsChanged += (sender, e) => {
-				int prefHeight = (int) label.Surface.GetPreferredSize(Math.Max(Size.Width - 2 * Parameter.BorderRadius, 1), SizeConstraint.Unconstrained).Height;
+				var prefHeight = (int) label.Surface.GetPreferredSize(Math.Max(Size.Width - 2 * Parameter.BorderRadius, 1), SizeConstraint.Unconstrained).Height;
 				HeightRequest = prefHeight + 2*Parameter.BorderRadius - 5;
 				SetChildBounds(label, new Rectangle(Parameter.BorderRadius, Parameter.BorderRadius, Size.Width - 2 * Parameter.BorderRadius, prefHeight));
 				QueueDraw();
@@ -22,7 +22,7 @@ namespace QuizPresentator {
 			label.Wrap = WrapMode.Word;
 			AddChild(label, Parameter.BorderRadius, Parameter.BorderRadius);
 			OnBoundsChanged();
-			ResetBorderColor();
+			ResetColors();
 		}
 
 		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
@@ -35,7 +35,7 @@ namespace QuizPresentator {
 			ctx.LineTo(Size.Width - (Parameter.BorderWidth / 2), Parameter.BorderRadius);
 			ctx.LineTo(Size.Width - Parameter.BorderRadius, Parameter.BorderWidth / 2);
 			ctx.ClosePath();
-			ctx.SetColor(Parameter.BoxBackgroundColor);
+			ctx.SetColor(backgroundColor);
 			ctx.FillPreserve();
 			ctx.SetLineWidth(Parameter.BorderWidth);
 			ctx.SetColor(borderColor);
@@ -48,13 +48,27 @@ namespace QuizPresentator {
 			QueueDraw();
 		}
 
-		public void SetBorderColor(Color color) {
-			borderColor = color;
+		public void Correct() {
+			borderColor = Parameter.CorrectAnswerBorderColor;
+			backgroundColor = Parameter.CorrectAnswerColor;
 			QueueDraw();
 		}
 
-		public void ResetBorderColor() {
+		public void Wrong() {
+			borderColor = Parameter.WrongAnswerBorderColor;
+			backgroundColor = Parameter.WrongAnswerColor;
+			QueueDraw();
+		}
+
+		public void LogIn() {
+			borderColor = Parameter.LogInBorderColor;
+			backgroundColor = Parameter.LogInColor;
+			QueueDraw();
+		}
+
+		public void ResetColors() {
 			borderColor = Parameter.BoxBorderColor;
+			backgroundColor = Parameter.BoxBackgroundColor;
 			QueueDraw();
 		}
 	}

@@ -163,12 +163,22 @@
     <None Include="app.config" />
     <None Include="images\example.png">
     </None>
-    <None Include="images\lifelines\50-50.svg" />
+    <None Include="images\lifelines\50_50_lifeline.svg" />
     <None Include="images\lifelines\additional_lifeline.svg" />
     <None Include="images\lifelines\ask_the_audience_lifeline.svg" />
-    <None Include="images\lifelines\50-50.png">
+    <None Include="images\lifelines\50_50_lifeline.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="images\lifelines\additional_lifeline.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="images\lifelines\ask_the_audience_lifeline.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="images\lifelines\telephone_lifeline.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="images\lifelines\telephone_lifeline.svg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
