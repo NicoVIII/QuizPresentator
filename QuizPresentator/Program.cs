@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Xwt;
 using Xwt.Drawing;
 
@@ -12,11 +13,11 @@ namespace QuizPresentator {
 
 			BoundsChanged += (sender, e) => {
 				Size size = image.Size;
-				if (size.Width/size.Height < Size.Width/size.Height) {
+				if (size.Width/size.Height < Size.Width/Size.Height) {
 					// Image is higher
 					int width = (int) (size.Width * (Size.Height / size.Height));
 					rect = new Rectangle((Size.Width - width) / 2, 0, width, Size.Height);
-				} else if (size.Width / size.Height > Size.Width / size.Height) {
+				} else if (size.Width / size.Height > Size.Width / Size.Height) {
 					int height = (int) (size.Height * (Size.Width / size.Width));
 					rect = new Rectangle(0, (Size.Height - height) / 2, Size.Width, height);
 				} else {
@@ -24,6 +25,20 @@ namespace QuizPresentator {
 				}
 				QueueDraw();
 			};
+		}
+
+		public void Update(int questionIndex) {
+			string fileName = "images/" + questionIndex;
+			if (File.Exists(fileName + ".jpg")) {
+				image = Image.FromFile(fileName + ".jpg");
+			} else if (File.Exists(fileName + ".png")) {
+				image = Image.FromFile(fileName + ".png");
+			} else {
+				image = null;
+			}
+
+			OnBoundsChanged();
+			QueueDraw();
 		}
 
 		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
@@ -39,7 +54,8 @@ namespace QuizPresentator {
 			ctx.SetColor(Colors.LightGray);
 			ctx.Fill();
 
-			ctx.DrawImage(image, rect);
+			if (image != null)
+				ctx.DrawImage(image, rect);
 		}
 	}
 
@@ -50,7 +66,7 @@ namespace QuizPresentator {
 		private static State state = State.START;
 		private static Logic.AnswerIndex choosenAnswer;
 
-		private static Image image;
+		private static int question = 0;
 
 		private enum State {
 			// TODO check if this state is necessary or if it could be removed. Result would be the new starting state
@@ -108,8 +124,7 @@ namespace QuizPresentator {
 			upperHalf.VerticalPlacement = WidgetPlacement.Fill;
 
 			// Imageview
-			image = Image.FromFile("images/example.png").WithSize(200, 200);
-			ImageCanvas imageCanvas = new ImageCanvas(image);
+			ImageCanvas imageCanvas = new ImageCanvas(Image.FromFile("images/example.png"));
 			upperHalf.PackStart(imageCanvas, true);
 
 			// ResultBoxes
@@ -178,6 +193,7 @@ namespace QuizPresentator {
 						if (e.Key.Equals(Xwt.Key.Space)) {
 							resultBoxes.Update(quiz);
 							questionBox.Update(quiz);
+							imageCanvas.Update(++question);
 							if (quiz.Ended) {
 								state = State.END;
 								questionBox.Hide();
