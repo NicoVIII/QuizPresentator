@@ -13,10 +13,11 @@
 
 		public readonly static Xwt.Drawing.Color WrongAnswerColor = Xwt.Drawing.Colors.Red;
 
-		public readonly static int FontSizeResult = 22;
-		public readonly static int FontSizeQuestion = 26;
+		public readonly static int FontSizeResult = 30;
+		public readonly static int FontSizeQuestion = 36;
 		public readonly static int BorderRadius = 16;
 		public readonly static int BorderWidth = 4;
+		public readonly static int JokerSize = 50;
 
 		public readonly static string QuizFilePath = "quiz.txt";
 
