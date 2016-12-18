@@ -164,6 +164,20 @@ let initQuizFromFile filePath =
         | _ ->
             emptyQuiz 1 |> addQuestionsFromLines 0 lines
 
+let getResults quiz =
+    let {parties = parties} = quiz
+    let fold resList {questions = questions} =
+        let fold2 resList {result = result} =
+            match result with
+            | None -> resList
+            | Some res -> resList @ [res]
+        List.fold fold2 resList questions
+    List.fold fold [] parties
+
+let getResultOfParty {parties = parties} index =
+    let {questions = questions} = List.item index parties
+    List.fold (fun points q -> if q.result = Some true then points + 1 else points) 0 questions
+
 // Define object functions for use in C#
 type Quiz with
     member this.Question = getQuestionString this
@@ -174,5 +188,7 @@ type Quiz with
     member this.Size = getLength this
     member this.Ended = isEnded this
     member this.NrOfParties = getNrOfParties this
+    member this.Results = getResults this
+    member this.ResultOfParty index = getResultOfParty this index
     member this.CheckAnswer index = checkAnswer this index
     member this.ChooseAnswer index = chooseAnswer this index

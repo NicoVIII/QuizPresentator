@@ -26,7 +26,14 @@ namespace QuizPresentator {
 				results[j] = new List<bool>();
 			}
 
-			// TODO: Update result
+			foreach (bool result in quiz.Results) {
+				results[i].Add(result);
+				i = (i + 1) % quiz.NrOfParties;
+			}
+
+			for (int j = 0; j < quiz.NrOfParties; j++) {
+				boxes[j].Update(results[j], quiz.ResultOfParty(j), (quiz.Results.Length % quiz.NrOfParties) == j);
+			}
 		}
 	}
 }
