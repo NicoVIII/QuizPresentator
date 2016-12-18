@@ -21,19 +21,12 @@ namespace QuizPresentator {
 
 		public void Update(Logic.Quiz quiz) {
 			int i = 0;
-			List<bool>[] results = new List<bool>[quiz.nrOfParties];
-			for (int j = 0; j < quiz.nrOfParties; j++) {
+			List<bool>[] results = new List<bool>[quiz.NrOfParties];
+			for (int j = 0; j < quiz.NrOfParties; j++) {
 				results[j] = new List<bool>();
 			}
 
-			foreach(bool result in quiz.Results) {
-				results[i].Add(result);
-				i = (i + 1) % quiz.nrOfParties;
-			}
-
-			for (int j = 0; j < quiz.nrOfParties; j++) {
-				boxes[j].Update(results[j], quiz.ResultOfParty(j), (quiz.Results.Length % quiz.nrOfParties) == j);
-			}
+			// TODO: Update result
 		}
 	}
 }
