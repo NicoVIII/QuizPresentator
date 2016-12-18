@@ -7,6 +7,7 @@ namespace QuizPresentator {
 	class ImageCanvas : Canvas {
 		private Image image;
 		private Rectangle rect;
+		private bool boundsChanged = false;
 
 		public ImageCanvas(Image image) {
 			this.image = image;
@@ -42,11 +43,16 @@ namespace QuizPresentator {
 				image = null;
 			}
 
-			OnBoundsChanged();
+			boundsChanged = true;
 			QueueDraw();
 		}
 
 		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
+			if (boundsChanged) {
+				OnBoundsChanged();
+				boundsChanged = false;
+			}
+
 			ctx.MoveTo(Parameter.BorderRadius, 0);
 			ctx.LineTo(0, Parameter.BorderRadius);
 			ctx.LineTo(0, Size.Height - Parameter.BorderRadius);
@@ -80,6 +86,15 @@ namespace QuizPresentator {
 			LOGGED_IN,
 			RESULT,
 			END
+		}
+
+		private static void useLifeline(int index) {
+			quiz = quiz.UseLifeline(quiz.activeParty, index);
+			// 50-50
+			if (quiz.Parties[quiz.activeParty].Lifelines[index].Type == Logic.LLType.FiftyFiftyLL) {
+				questionBox.FiftyFifty(quiz);
+			}
+			resultBoxes.Update(quiz);
 		}
 
 		[STAThread]
@@ -133,7 +148,7 @@ namespace QuizPresentator {
 			upperHalf.PackStart(imageCanvas, true);
 
 			// ResultBoxes
-			resultBoxes = new ResultBoxes(quiz.Size, quiz.NrOfParties);
+			resultBoxes = new ResultBoxes(quiz.Size, quiz.NrOfParties, quiz.NrOfLifelines, quiz);
 			upperHalf.PackEnd(resultBoxes);
 
 			// Lower half
@@ -180,6 +195,26 @@ namespace QuizPresentator {
 								choosenAnswer = Logic.AnswerIndex.D;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
+								break;
+							case Key.q:
+							case Key.Q:
+								useLifeline(0);
+								break;
+							case Key.w:
+							case Key.W:
+								useLifeline(1);
+								break;
+							case Key.e:
+							case Key.E:
+								useLifeline(2);
+								break;
+							case Key.r:
+							case Key.R:
+								useLifeline(3);
+								break;
+							case Key.t:
+							case Key.T:
+								useLifeline(4);
 								break;
 						}
 						break;

@@ -9,6 +9,7 @@ namespace QuizPresentator {
 	public class QuestionComponentBox : Canvas {
 		Label label = new Label();
 		Color borderColor, backgroundColor;
+		bool boundsChanged = false;
 
 		public QuestionComponentBox() {
 			this.BoundsChanged += (sender, e) => {
@@ -26,6 +27,11 @@ namespace QuizPresentator {
 		}
 
 		protected override void OnDraw(Context ctx, Rectangle dirtyRect) {
+			if (boundsChanged) {
+				OnBoundsChanged();
+				boundsChanged = false;
+			}
+			
 			ctx.MoveTo(Parameter.BorderRadius, Parameter.BorderWidth / 2);
 			ctx.LineTo(Parameter.BorderWidth / 2, Parameter.BorderRadius);
 			ctx.LineTo(Parameter.BorderWidth / 2, Size.Height - Parameter.BorderRadius);
@@ -45,6 +51,7 @@ namespace QuizPresentator {
 		public void SetText(string text) {
 			label.Text = text;
 			OnBoundsChanged();
+			boundsChanged = true;
 			QueueDraw();
 		}
 

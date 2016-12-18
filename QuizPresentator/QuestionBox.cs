@@ -1,4 +1,5 @@
-﻿using Xwt;
+﻿using System;
+using Xwt;
 
 namespace QuizPresentator {
 	/// <summary>
@@ -26,6 +27,39 @@ namespace QuizPresentator {
 			answersTable.Add(answerBoxC, left: 0, top: 1, hexpand: true);
 			answerBoxD = new QuestionComponentBox();
 			answersTable.Add(answerBoxD, left: 1, top: 1, hexpand: true);
+		}
+
+		public void FiftyFifty(Logic.Quiz quiz) {
+			Logic.Question question = null;
+			foreach (Logic.Question q in quiz.Parties[quiz.activeParty].Questions) {
+				if (!q.HasResult) {
+					question = q;
+					break;
+				}
+			}
+
+			// Get random wrong answer, which stays
+			Random r = new Random();
+			int stay = r.Next(3);
+			if (question.correct == Logic.AnswerIndex.C && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 2) {
+				answerBoxA.SetText("");
+				answerBoxB.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.B && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 1) {
+				answerBoxA.SetText("");
+				answerBoxC.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.B && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 1) {
+				answerBoxA.SetText("");
+				answerBoxD.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 0) {
+				answerBoxB.SetText("");
+				answerBoxC.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 0) {
+				answerBoxB.SetText("");
+				answerBoxD.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 0 || question.correct == Logic.AnswerIndex.B && stay == 0) {
+				answerBoxC.SetText("");
+				answerBoxD.SetText("");
+			}
 		}
 
 		public void Update(Logic.Quiz quiz) {
