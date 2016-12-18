@@ -12,21 +12,45 @@ let indexFromString string =
     | "D" | "d" | "4" -> D
     | _ -> failwith "no valid string from AnswerIndex"
 
-type Question = {question: QuestionString; answers: AnswerString * AnswerString * AnswerString * AnswerString; correct: AnswerIndex}
-type public Quiz = {questions: Question list; results: bool list; nrOfQuestions: int; nrOfParties: int}
+// type Joker = 
+type Question = {question: QuestionString; answers: AnswerString * AnswerString * AnswerString * AnswerString; correct: AnswerIndex; result: bool option}
+type Party = {questions: Question list}
+type public Quiz = {parties: Party list; activeParty: int}
 
 // Creation
-let private question question correct answerA answerB answerC answerD = {question = Question question; answers = (answerA, answerB, answerC, answerD); correct = correct}
-let private emptyQuiz parties = {questions = []; results = []; nrOfQuestions = 0; nrOfParties = parties}
-let private addQuestion quiz question =
-    match quiz with
-    | {questions = questions; nrOfQuestions = length} -> {quiz with questions = questions @ [question]; nrOfQuestions = length + 1}
+let private question question correct answerA answerB answerC answerD = {question = Question question; answers = (answerA, answerB, answerC, answerD); correct = correct; result = None}
+let private emptyParty() =
+    {questions = []}
+let rec emptyQuiz parties =
+    match parties with
+    | 1 -> {parties = [emptyParty()]; activeParty = 0}
+    | i when i > 1 ->
+        let {parties = parties} = emptyQuiz (i-1)
+        let parties' = List.append [emptyParty()] parties
+        {parties = parties'; activeParty = 0}
+    | _ -> invalidArg "parties" "Invalid partysize"
+        
+let private addQuestion party question =
+    let {questions = questions} = party
+    {party with questions = questions @ [question]}
 
 // Simple Getter
+let private getQuestionFromParty party =
+    let {questions = questions} = party
+    let fold res question =
+        let {result = result} = question
+        match res with
+        | Some q -> Some q
+        | None ->
+            match result with
+            | None -> Some question
+            | Some _ -> None
+    List.fold fold None questions
+
 let private getQuestion quiz =
-    match quiz with
-    | {questions = []} -> None
-    | {questions = question::_} -> Some(question)
+    let {parties = parties; activeParty = i} = quiz
+    List.item i parties |> getQuestionFromParty
+
 let private getAnswers quiz =
     match getQuestion quiz with
     | None -> ("", "", "", "")
@@ -46,11 +70,10 @@ let getAnswerB = getAnswerString B
 let getAnswerC = getAnswerString C
 let getAnswerD = getAnswerString D
 
-let getLength {nrOfQuestions = length} = length
+let getLength {parties = parties} =
+    List.fold (fun amount {questions = questions} -> amount + List.length questions) 0 parties
 
-let getResults {results = results} = results
-
-let getNrOfParties {nrOfParties = parties} = parties
+let getNrOfParties {parties = parties} = List.length parties
 
 let rec private countResults quiz results offset =
     match results with
@@ -65,14 +88,16 @@ let rec private countResults quiz results offset =
         | _ -> failwith "Invalid Party index"
     | [] -> 0
 
-let getResultForParty quiz party =
-    let results = getResults quiz
-    countResults quiz results party
-
-let isEnded {questions = questions} =
-    match questions with
-    | [] -> true
-    | question::_ -> false
+let isEnded quiz =
+    let {parties = parties} = quiz
+    let fold ended party =
+        if ended = true then
+            match getQuestionFromParty party with
+            | None -> true
+            | Some _ -> false
+        else
+            ended
+    List.fold fold true parties
 
 // Flow
 let private checkAnswer quiz answer =
@@ -80,32 +105,49 @@ let private checkAnswer quiz answer =
     | None -> failwith "Quiz has no valid state. No question to choose an answer from!"
     | Some {question = _; answers = _; correct = correct} -> answer = correct
 
+let updateResult party result =
+    let {questions = questions} = party
+
+    let mapFold res (question: Question) =
+        match res with
+        | None ->
+            (question, res)
+        | Some r ->
+            match question.result with
+            | Some _ ->
+                (question, res)
+            | None ->
+                ({question with result = Some r}, None)
+    let (out,_) = List.mapFold mapFold (Some result) questions
+    out
+
 let chooseAnswer quiz answer =
-    match quiz with
-    | {questions = []} ->
-        failwith "Quiz has no valid state. No question to choose an answer from!"
-    | {questions = _::restQuestions; results = results} ->
-        match checkAnswer quiz answer with
-        | true  -> {quiz with questions = restQuestions; results = results @ [true]}
-        | false -> {quiz with questions = restQuestions; results = results @ [false]}
+    let {parties=parties; activeParty=active} = quiz
+    let party' = {(List.item active parties) with questions = updateResult (List.item active parties) (checkAnswer quiz answer)}
+    let parties' = List.mapi (fun i party -> if i = active then party' else party) parties
+    {quiz with parties = parties'; activeParty = (active+1) % (List.length parties)}
 
 // Questions from file
 let readLines filePath = System.IO.File.ReadLines(filePath) |> List.ofSeq
 
 let getArgsFromLine (line : string) = line.Split ';' |> List.ofArray |> List.map (fun el -> el.Trim ' ')
 
-let addQuestionFromLine (line : string) quiz =
+let addQuestionFromLine (line : string) party =
     let args = getArgsFromLine line
     match args with
     | questionString::correct::answerA::answerB::answerC::[answerD] ->
         let index = indexFromString correct
-        addQuestion quiz (question questionString index answerA answerB answerC answerD)
+        addQuestion party (question questionString index answerA answerB answerC answerD)
     | _ -> failwith "line has wrong number of arguments"
 
-let rec addQuestionsFromLines lines quiz =
+let rec addQuestionsFromLines index lines quiz =
     match lines with
     | line::rest ->
-        quiz |> addQuestionFromLine line |> addQuestionsFromLines rest
+        let {parties = parties} = quiz
+        let party = List.item index parties
+        let party' = addQuestionFromLine line party
+        let quiz' = {quiz with parties = List.mapi (fun i party -> if i = index then party' else party) parties}
+        addQuestionsFromLines ((index + 1) % (List.length quiz'.parties)) rest quiz'
     | [] ->
         quiz
     
@@ -118,9 +160,23 @@ let initQuizFromFile filePath =
         match System.Int32.TryParse(partiesString) with
         // First line is a single integer
         | (true,parties) ->
-            emptyQuiz parties |> addQuestionsFromLines questionLines
+            emptyQuiz parties |> addQuestionsFromLines 0 questionLines
         | _ ->
-            emptyQuiz 1 |> addQuestionsFromLines lines
+            emptyQuiz 1 |> addQuestionsFromLines 0 lines
+
+let getResults quiz =
+    let {parties = parties} = quiz
+    let fold resList {questions = questions} =
+        let fold2 resList {result = result} =
+            match result with
+            | None -> resList
+            | Some res -> resList @ [res]
+        List.fold fold2 resList questions
+    List.fold fold [] parties
+
+let getResultOfParty {parties = parties} index =
+    let {questions = questions} = List.item index parties
+    List.fold (fun points q -> if q.result = Some true then points + 1 else points) 0 questions
 
 // Define object functions for use in C#
 type Quiz with
@@ -133,6 +189,6 @@ type Quiz with
     member this.Ended = isEnded this
     member this.NrOfParties = getNrOfParties this
     member this.Results = getResults this
-    member this.ResultOfParty party = getResultForParty this party
+    member this.ResultOfParty index = getResultOfParty this index
     member this.CheckAnswer index = checkAnswer this index
     member this.ChooseAnswer index = chooseAnswer this index
