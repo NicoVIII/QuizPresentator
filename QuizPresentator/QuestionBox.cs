@@ -1,4 +1,5 @@
-﻿using Xwt;
+﻿using System;
+using Xwt;
 
 namespace QuizPresentator {
 	/// <summary>
@@ -28,12 +29,45 @@ namespace QuizPresentator {
 			answersTable.Add(answerBoxD, left: 1, top: 1, hexpand: true);
 		}
 
+		public void FiftyFifty(Logic.Quiz quiz) {
+			Logic.Question question = null;
+			foreach (Logic.Question q in quiz.Parties[quiz.activeParty].Questions) {
+				if (!q.HasResult) {
+					question = q;
+					break;
+				}
+			}
+
+			// Get random wrong answer, which stays
+			Random r = new Random();
+			int stay = r.Next(3);
+			if (question.correct == Logic.AnswerIndex.C && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 2) {
+				answerBoxA.SetText("");
+				answerBoxB.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.B && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 1) {
+				answerBoxA.SetText("");
+				answerBoxC.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.B && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 1) {
+				answerBoxA.SetText("");
+				answerBoxD.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 0) {
+				answerBoxB.SetText("");
+				answerBoxC.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 0) {
+				answerBoxB.SetText("");
+				answerBoxD.SetText("");
+			} else if (question.correct == Logic.AnswerIndex.A && stay == 0 || question.correct == Logic.AnswerIndex.B && stay == 0) {
+				answerBoxC.SetText("");
+				answerBoxD.SetText("");
+			}
+		}
+
 		public void Update(Logic.Quiz quiz) {
 			// Reset color
-			answerBoxA.ResetBorderColor();
-			answerBoxB.ResetBorderColor();
-			answerBoxC.ResetBorderColor();
-			answerBoxD.ResetBorderColor();
+			answerBoxA.ResetColors();
+			answerBoxB.ResetColors();
+			answerBoxC.ResetColors();
+			answerBoxD.ResetColors();
 
 			// Update question and answer texts
 			questionBox.SetText(quiz.Question);
@@ -45,39 +79,48 @@ namespace QuizPresentator {
 
 		public void LogIn(Logic.AnswerIndex index) {
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.SetBorderColor(Parameter.LogInColor);
-				answerBoxB.ResetBorderColor();
-				answerBoxC.ResetBorderColor();
-				answerBoxD.ResetBorderColor();
+				answerBoxA.LogIn();
+				answerBoxB.ResetColors();
+				answerBoxC.ResetColors();
+				answerBoxD.ResetColors();
 			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.SetBorderColor(Parameter.LogInColor);
-				answerBoxC.ResetBorderColor();
-				answerBoxD.ResetBorderColor();
+				answerBoxA.ResetColors();
+				answerBoxB.LogIn();
+				answerBoxC.ResetColors();
+				answerBoxD.ResetColors();
 			} else if(index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.ResetBorderColor();
-				answerBoxC.SetBorderColor(Parameter.LogInColor);
-				answerBoxD.ResetBorderColor();
+				answerBoxA.ResetColors();
+				answerBoxB.ResetColors();
+				answerBoxC.LogIn();
+				answerBoxD.ResetColors();
 			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxA.ResetBorderColor();
-				answerBoxB.ResetBorderColor();
-				answerBoxC.ResetBorderColor();
-				answerBoxD.SetBorderColor(Parameter.LogInColor);
+				answerBoxA.ResetColors();
+				answerBoxB.ResetColors();
+				answerBoxC.ResetColors();
+				answerBoxD.LogIn();
 			}
 		}
 
 		public void ShowResult(Logic.AnswerIndex index, bool result) {
-			Xwt.Drawing.Color color = result ? Parameter.CorrectAnswerColor : Parameter.WrongAnswerColor;
+			QuestionComponentBox box;
 
 			if (index.Equals(Logic.AnswerIndex.A)) {
-				answerBoxA.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.B)) {
-				answerBoxB.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.C)) {
-				answerBoxC.SetBorderColor(color);
-			} else if (index.Equals(Logic.AnswerIndex.D)) {
-				answerBoxD.SetBorderColor(color);
+				box = answerBoxA;
+			}
+			else if (index.Equals(Logic.AnswerIndex.B)) {
+				box = answerBoxB;
+			}
+			else if (index.Equals(Logic.AnswerIndex.C)) {
+				box = answerBoxC;
+			}
+			else /*if (index.Equals(Logic.AnswerIndex.D)) */{
+				box = answerBoxD;
+			}
+
+			if (result) {
+				box.Correct();
+			} else {
+				box.Wrong();
 			}
 		}
 	}

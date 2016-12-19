@@ -12,15 +12,17 @@ let indexFromString string =
     | "D" | "d" | "4" -> D
     | _ -> failwith "no valid string from AnswerIndex"
 
-// type Joker = 
+type LLType = JustImageLL | FiftyFiftyLL
+type Lifeline = {name: string; ``type``: LLType; used: bool}
 type Question = {question: QuestionString; answers: AnswerString * AnswerString * AnswerString * AnswerString; correct: AnswerIndex; result: bool option}
-type Party = {questions: Question list}
+type Party = {questions: Question list; lifelines: Lifeline list}
 type public Quiz = {parties: Party list; activeParty: int}
 
 // Creation
+let private lifeline name ``type`` = {name = name; ``type`` = ``type``; used = false}
 let private question question correct answerA answerB answerC answerD = {question = Question question; answers = (answerA, answerB, answerC, answerD); correct = correct; result = None}
 let private emptyParty() =
-    {questions = []}
+    {questions = []; lifelines = [lifeline "50-50" FiftyFiftyLL; lifeline "telephone" JustImageLL; lifeline "audience" JustImageLL; lifeline "audience" JustImageLL; lifeline "additional" JustImageLL]}
 let rec emptyQuiz parties =
     match parties with
     | 1 -> {parties = [emptyParty()]; activeParty = 0}
@@ -178,6 +180,16 @@ let getResultOfParty {parties = parties} index =
     let {questions = questions} = List.item index parties
     List.fold (fun points q -> if q.result = Some true then points + 1 else points) 0 questions
 
+let nrOfLifelines {parties = parties} =
+    let {lifelines = lifelines} = List.item 0 parties
+    List.length lifelines
+
+let getLifelines {lifelines = lifelines} = lifelines
+
+let useLifeline party index =
+    let {lifelines = lifelines} = party
+    List.mapi (fun i ll -> if i = index then {ll with used = true} else ll) lifelines
+
 // Define object functions for use in C#
 type Quiz with
     member this.Question = getQuestionString this
@@ -192,3 +204,34 @@ type Quiz with
     member this.ResultOfParty index = getResultOfParty this index
     member this.CheckAnswer index = checkAnswer this index
     member this.ChooseAnswer index = chooseAnswer this index
+    member this.NrOfLifelines = nrOfLifelines this
+    member this.Parties =
+        let {parties = parties} = this
+        List.toArray parties
+    member this.UseLifeline partyIndex index =
+        let {parties = parties} = this
+        let party = List.item partyIndex parties
+        let party' = {party with lifelines = useLifeline party index}
+        {this with parties = List.mapi (fun i party -> if i = partyIndex then party' else party) parties}
+
+type Party with
+    member this.Lifelines = getLifelines this |> List.toArray
+    member this.Questions =
+        let {questions = questions} = this
+        questions |> List.toArray
+
+type Question with
+    member this.HasResult =
+        let {result = result} = this
+        not (result = None)
+
+type Lifeline with
+    member this.Name =
+        let {name = name} = this
+        name
+    member this.Type =
+        let {``type``= t} = this
+        t
+    member this.Used = 
+        let {used = used} = this
+        used
