@@ -18,8 +18,8 @@ namespace QuizPresentator {
 			for (int i = 0; i < parties.Length; i++) {
 				lifelineBoxes[i] = new VBox();
 
-				/*for (int j = 0; j < nrOfLifelines; j++) {
-					Lifeline ll = quiz.Parties[i].Lifelines[j];
+				for (int j = 0; j < quiz.Lifelines.Length; j++) {
+					Lifeline ll = quiz.Lifelines[j];
 
 					//Determine image
 					Image image = null;
@@ -41,7 +41,7 @@ namespace QuizPresentator {
 					ImageView iv = new ImageView(image);
 					lifelineBoxes[i].PackStart(iv);
 					lifelines[i, j] = iv;
-				}*/
+				}
 				PackStart(lifelineBoxes[i]);
 
 				ResultBox box = new ResultBox(parties[i]);

@@ -11,10 +11,6 @@ module QuizFromFile =
         | "C" | "c" | "3" -> C
         | "D" | "d" | "4" -> D
         | _ -> failwith "no valid string from AnswerIndex"
-            
-    let addQuestion party question =
-        let {questions = questions} = party
-        {party with questions = questions @ [question]}
 
     let readLines filePath = System.IO.File.ReadLines(filePath) |> List.ofSeq
 
@@ -40,6 +36,9 @@ module QuizFromFile =
             quiz
         
     let initQuizFromFile filePath =
+        // TODO remove and implement some way to define lifelines inside of quiz.txt
+        let lifelines = [lifeline "50-50" FiftyFiftyLL; lifeline "telephone" JustImageLL; lifeline "audience" JustImageLL; lifeline "additional" JustImageLL]
+
         let lines = readLines filePath
         match lines with
         | [] ->
@@ -48,6 +47,10 @@ module QuizFromFile =
             match System.Int32.TryParse(partiesString) with
             // First line is a single integer
             | (true,parties) ->
-                emptyQuiz parties |> addQuestionsFromLines 0 questionLines
+                emptyQuiz parties
+                |> addQuestionsFromLines 0 questionLines
+                |> addLifelines lifelines
             | _ ->
-                emptyQuiz 1 |> addQuestionsFromLines 0 lines
+                emptyQuiz 1
+                |> addQuestionsFromLines 0 lines
+                |> addLifelines lifelines

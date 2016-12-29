@@ -3,7 +3,7 @@
 module QuizPresentator =
     type QuestionString = QuestionString of string
     type AnswerString = AnswerString of string
-    type AnswerIndex = | A | B | C | D
+    type AnswerIndex = A | B | C | D
     type Result = Result of bool option
     type Question = {question: QuestionString; answers: AnswerString * AnswerString * AnswerString * AnswerString; correct: AnswerIndex; result: Result}
 
@@ -117,8 +117,21 @@ module QuizPresentator =
 
     module Creation =
         let lifeline name ``type`` = {name = name; ``type`` = ``type``}
-        let lifelineInfo lifeline used = {lifeline = lifeline; used = false}
+        let lifelineInfo lifeline = {lifeline = lifeline; used = false}
         let question question correct answerA answerB answerC answerD = {question = QuestionString question; answers = (AnswerString answerA, AnswerString answerB, AnswerString answerC, AnswerString answerD); correct = correct; result = Result None}
+        let addQuestion party question =
+            let {questions = questions} = party
+            {party with questions = questions @ [question]}
+        let addLifeline lifeline quiz =
+            let {parties = parties} = quiz
+            let map party =
+                let {lifelineInfos = info} = party
+                let lifelineInfo = lifelineInfo lifeline
+                {party with lifelineInfos = lifelineInfo::info}
+            let parties' = List.map map parties
+            {quiz with parties = parties'}
+        let addLifelines lifelines quiz =
+            List.fold (fun quiz' ll -> addLifeline ll quiz') quiz lifelines
         let emptyParty active =
             {questions = []; lifelineInfos = []; active = active}
         let rec emptyQuiz parties =
