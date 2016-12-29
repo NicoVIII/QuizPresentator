@@ -101,8 +101,10 @@ module QuizPresentator =
 
         let (list, res) = List.fold fold ([], false) quiz.parties
         if res then
-            let (list, _) = List.fold fold ([], true) list
-            {quiz with parties = List.rev list}
+            match List.rev list with
+            | party::rest -> {quiz with parties = {party with active = true}::rest}
+            // TODO error handling
+            | [] -> invalidOp ""
         else
             {quiz with parties = List.rev list}
 
