@@ -9,17 +9,17 @@ namespace QuizPresentator {
 		ResultBox[] boxes;
 		ImageView[,] lifelines;
 
-		public ResultBoxes(int nrOfQuestions, int nrOfParties, int nrOfLifelines, Logic.Quiz quiz) {
-			boxes = new ResultBox[nrOfParties];
-			lifelineBoxes = new VBox[nrOfParties];
+		public ResultBoxes(Quiz quiz) {
+			Party[] parties = quiz.Parties;
+			boxes = new ResultBox[parties.Length];
+			lifelineBoxes = new VBox[parties.Length];
 			// Initialise boxes
-			int questionsLeft = nrOfQuestions;
-			lifelines = new ImageView[nrOfParties, nrOfLifelines];
-			for (int i = 0; i < nrOfParties; i++) {
+			lifelines = new ImageView[parties.Length, quiz.Lifelines.Length];
+			for (int i = 0; i < parties.Length; i++) {
 				lifelineBoxes[i] = new VBox();
 
-				for (int j = 0; j < nrOfLifelines; j++) {
-					Logic.Lifeline ll = quiz.Parties[i].Lifelines[j];
+				/*for (int j = 0; j < nrOfLifelines; j++) {
+					Lifeline ll = quiz.Parties[i].Lifelines[j];
 
 					//Determine image
 					Image image = null;
@@ -41,43 +41,19 @@ namespace QuizPresentator {
 					ImageView iv = new ImageView(image);
 					lifelineBoxes[i].PackStart(iv);
 					lifelines[i, j] = iv;
-				}
+				}*/
 				PackStart(lifelineBoxes[i]);
 
-				int questions = (int) Math.Ceiling((double)(questionsLeft / (nrOfParties - i)));
-				questionsLeft -= questions;
-				ResultBox box = new ResultBox(questions);
+				ResultBox box = new ResultBox(parties[i]);
 				boxes[i] = box;
 				PackStart(box);
 			}
 		}
 
-		public void Update(Logic.Quiz quiz) {
-			int i = 0;
-			List<bool>[] results = new List<bool>[quiz.NrOfParties];
-			for (int j = 0; j < quiz.NrOfParties; j++) {
-				results[j] = new List<bool>();
-			}
-
-			foreach (bool result in quiz.Results) {
-				results[i].Add(result);
-				i = (i + 1) % quiz.NrOfParties;
-			}
-
-			for (int j = 0; j < quiz.NrOfParties; j++) {
-				boxes[j].Update(results[j], quiz.ResultOfParty(j), (quiz.Results.Length % quiz.NrOfParties) == j);
-			}
-
-			// Update lifelines
-			for (int j = 0; j < quiz.NrOfParties; j++) {
-				for (int k = 0; k < quiz.NrOfLifelines; k++) {
-					if (quiz.Parties[j].Lifelines[k].Used) {
-						if (lifelines[j, k] != null) {
-							lifelineBoxes[j].Remove(lifelines[j, k]);
-							lifelines[j, k] = null;
-						}
-					}
-				}
+		public void Update(Quiz quiz) {
+			Party[] parties = quiz.Parties;
+			for (int i = 0; i < parties.Length; i++) {
+				boxes[i].Update(parties[i]);
 			}
 		}
 	}

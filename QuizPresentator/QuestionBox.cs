@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizPresentator;
+using System;
 using Xwt;
 
 namespace QuizPresentator {
@@ -29,9 +30,9 @@ namespace QuizPresentator {
 			answersTable.Add(answerBoxD, left: 1, top: 1, hexpand: true);
 		}
 
-		public void FiftyFifty(Logic.Quiz quiz) {
-			Logic.Question question = null;
-			foreach (Logic.Question q in quiz.Parties[quiz.activeParty].Questions) {
+		/*public void FiftyFifty(Quiz quiz) {
+			Question question = null;
+			foreach (Question q in quiz.ActiveParty.Questions) {
 				if (!q.HasResult) {
 					question = q;
 					break;
@@ -41,28 +42,28 @@ namespace QuizPresentator {
 			// Get random wrong answer, which stays
 			Random r = new Random();
 			int stay = r.Next(3);
-			if (question.correct == Logic.AnswerIndex.C && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 2) {
+			if (question.correct == AnswerIndex.C && stay == 2 || question.correct == AnswerIndex.D && stay == 2) {
 				answerBoxA.SetText("");
 				answerBoxB.SetText("");
-			} else if (question.correct == Logic.AnswerIndex.B && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 1) {
+			} else if (question.correct == AnswerIndex.B && stay == 2 || question.correct == AnswerIndex.D && stay == 1) {
 				answerBoxA.SetText("");
 				answerBoxC.SetText("");
-			} else if (question.correct == Logic.AnswerIndex.B && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 1) {
+			} else if (question.correct == AnswerIndex.B && stay == 1 || question.correct == AnswerIndex.C && stay == 1) {
 				answerBoxA.SetText("");
 				answerBoxD.SetText("");
-			} else if (question.correct == Logic.AnswerIndex.A && stay == 2 || question.correct == Logic.AnswerIndex.D && stay == 0) {
+			} else if (question.correct == AnswerIndex.A && stay == 2 || question.correct == AnswerIndex.D && stay == 0) {
 				answerBoxB.SetText("");
 				answerBoxC.SetText("");
-			} else if (question.correct == Logic.AnswerIndex.A && stay == 1 || question.correct == Logic.AnswerIndex.C && stay == 0) {
+			} else if (question.correct == AnswerIndex.A && stay == 1 || question.correct == AnswerIndex.C && stay == 0) {
 				answerBoxB.SetText("");
 				answerBoxD.SetText("");
-			} else if (question.correct == Logic.AnswerIndex.A && stay == 0 || question.correct == Logic.AnswerIndex.B && stay == 0) {
+			} else if (question.correct == AnswerIndex.A && stay == 0 || question.correct == AnswerIndex.B && stay == 0) {
 				answerBoxC.SetText("");
 				answerBoxD.SetText("");
 			}
-		}
+		}*/
 
-		public void Update(Logic.Quiz quiz) {
+		public void Update(Quiz quiz) {
 			// Reset color
 			answerBoxA.ResetColors();
 			answerBoxB.ResetColors();
@@ -70,30 +71,31 @@ namespace QuizPresentator {
 			answerBoxD.ResetColors();
 
 			// Update question and answer texts
-			questionBox.SetText(quiz.Question);
-			answerBoxA.SetText("A: "+quiz.AnswerA);
-			answerBoxB.SetText("B: "+quiz.AnswerB);
-			answerBoxC.SetText("C: "+quiz.AnswerC);
-			answerBoxD.SetText("D: "+quiz.AnswerD);
+			Question question = quiz.CurrentQuestion;
+			questionBox.SetText(question.Question);
+			answerBoxA.SetText("A: "+question.AnswerA);
+			answerBoxB.SetText("B: "+question.AnswerB);
+			answerBoxC.SetText("C: "+question.AnswerC);
+			answerBoxD.SetText("D: "+question.AnswerD);
 		}
 
-		public void LogIn(Logic.AnswerIndex index) {
-			if (index.Equals(Logic.AnswerIndex.A)) {
+		public void LogIn(AnswerIndex index) {
+			if (index.Equals(AnswerIndex.A)) {
 				answerBoxA.LogIn();
 				answerBoxB.ResetColors();
 				answerBoxC.ResetColors();
 				answerBoxD.ResetColors();
-			} else if (index.Equals(Logic.AnswerIndex.B)) {
+			} else if (index.Equals(AnswerIndex.B)) {
 				answerBoxA.ResetColors();
 				answerBoxB.LogIn();
 				answerBoxC.ResetColors();
 				answerBoxD.ResetColors();
-			} else if(index.Equals(Logic.AnswerIndex.C)) {
+			} else if(index.Equals(AnswerIndex.C)) {
 				answerBoxA.ResetColors();
 				answerBoxB.ResetColors();
 				answerBoxC.LogIn();
 				answerBoxD.ResetColors();
-			} else if (index.Equals(Logic.AnswerIndex.D)) {
+			} else if (index.Equals(AnswerIndex.D)) {
 				answerBoxA.ResetColors();
 				answerBoxB.ResetColors();
 				answerBoxC.ResetColors();
@@ -101,16 +103,16 @@ namespace QuizPresentator {
 			}
 		}
 
-		public void ShowResult(Logic.AnswerIndex index, bool result) {
+		public void ShowResult(AnswerIndex index, bool result) {
 			QuestionComponentBox box;
 
-			if (index.Equals(Logic.AnswerIndex.A)) {
+			if (index.Equals(AnswerIndex.A)) {
 				box = answerBoxA;
 			}
-			else if (index.Equals(Logic.AnswerIndex.B)) {
+			else if (index.Equals(AnswerIndex.B)) {
 				box = answerBoxB;
 			}
-			else if (index.Equals(Logic.AnswerIndex.C)) {
+			else if (index.Equals(AnswerIndex.C)) {
 				box = answerBoxC;
 			}
 			else /*if (index.Equals(Logic.AnswerIndex.D)) */{
