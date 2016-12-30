@@ -1,19 +1,18 @@
 ﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug - macOS</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug (Unix)</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4160A9F2-3A79-451D-85BB-3235D096FB4D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>QuizPresentator</RootNamespace>
-    <AssemblyName>QuizPresentator</AssemblyName>
+    <RootNamespace>QuizPresenter</RootNamespace>
+    <AssemblyName>QuizPresenter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ReleaseVersion>0.0.0.0</ReleaseVersion>
-    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <ReleaseVersion>0.1.0.0</ReleaseVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - macOS|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug (Unix)|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug - macOS</OutputPath>
+    <OutputPath>bin\Debug %28Unix%29</OutputPath>
     <DefineConstants>DEBUG; MAC</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
@@ -29,9 +28,9 @@
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - macOS|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (Unix)|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release - macOS</OutputPath>
+    <OutputPath>bin\Release %28Unix%29</OutputPath>
     <DefineConstants>MAC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,55 +49,6 @@
           <command>/bin/sh build/release.sh "${TargetDir}"</command>
           <externalConsole>True</externalConsole>
           <pauseExternalConsole>True</pauseExternalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - Windows|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug - Windows</OutputPath>
-    <DefineConstants>DEBUG; WIN</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>build\clean.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - Windows|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release - Windows</OutputPath>
-    <DefineConstants>WIN</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\release.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>build\clean.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>
@@ -169,6 +119,12 @@
     <None Include="images\2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="build\clean.bat" />
+    <None Include="build\clean.sh" />
+    <None Include="build\postbuild.bat" />
+    <None Include="build\postbuild.sh" />
+    <None Include="build\release.bat" />
+    <None Include="build\release.sh" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />

@@ -43,13 +43,13 @@ type Test() =
         Check.QuickThrowOnFailure property
 
     [<Test>]
-    member x.``Lifeline is used correctly``() =
+    member x.``Lifeline is set used correctly``() =
         let random = new Random()
         let property party lifeline =
             let {lifelineInfos = infos} = party
             let info = lifelineInfo lifeline
             let party' = {party with lifelineInfos = info::infos}
-            let party'' = useLifeline lifeline party' random
+            let party'' = setLifelineUsed lifeline party'
             party'' .=. {party with lifelineInfos = {info with used = true}::infos}
 
         Check.QuickThrowOnFailure property
