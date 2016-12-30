@@ -28,3 +28,16 @@ type Test() =
             party'' .=. addQuestion party question'
 
         Check.QuickThrowOnFailure property
+
+    [<Test>]
+    member x.``Test that quiz is ended correctly``() =
+        let property quiz =
+            let fold2 ended question =
+                ended && not (question.result = Result None)
+
+            let fold1 ended party =
+                List.fold fold2 ended party.questions
+            let ended = List.fold fold1 true quiz.parties
+            isEnded quiz .=. ended
+
+        Check.QuickThrowOnFailure property

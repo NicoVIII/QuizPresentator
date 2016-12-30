@@ -71,12 +71,16 @@ namespace QuizPresentator {
 			answerBoxD.ResetColors();
 
 			// Update question and answer texts
-			Question question = quiz.CurrentQuestion;
-			questionBox.SetText(question.Question);
-			answerBoxA.SetText("A: "+question.AnswerA);
-			answerBoxB.SetText("B: "+question.AnswerB);
-			answerBoxC.SetText("C: "+question.AnswerC);
-			answerBoxD.SetText("D: "+question.AnswerD);
+			if (!quiz.Ended) {
+				Question question = quiz.CurrentQuestion;
+				questionBox.SetText(question.Question);
+				answerBoxA.SetText("A: " + question.AnswerA);
+				answerBoxB.SetText("B: " + question.AnswerB);
+				answerBoxC.SetText("C: " + question.AnswerC);
+				answerBoxD.SetText("D: " + question.AnswerD);
+			} else {
+				this.Hide();
+			}
 		}
 
 		public void LogIn(AnswerIndex index) {
@@ -101,6 +105,13 @@ namespace QuizPresentator {
 				answerBoxC.ResetColors();
 				answerBoxD.LogIn();
 			}
+		}
+
+		public void LogOut() {
+			answerBoxA.ResetColors();
+			answerBoxB.ResetColors();
+			answerBoxC.ResetColors();
+			answerBoxD.ResetColors();
 		}
 
 		public void ShowResult(AnswerIndex index, bool result) {
