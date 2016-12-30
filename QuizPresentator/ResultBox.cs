@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	public class ResultBox : Canvas {
 		// TODO think about using quiz locally
 		private VBox box;
@@ -11,10 +10,10 @@ namespace QuizPresentator {
 		private int nrOfQuestions;
 		private readonly static string PointsPattern = "{0} Punkte";
 
-		public ResultBox(int nrOfQuestions) {
-			this.nrOfQuestions = nrOfQuestions;
-			this.Margin = new WidgetSpacing(3, 3, 3, 3);
-			this.MinHeight = 2 * Parameter.BorderRadius;
+		public ResultBox(Party party) {
+			nrOfQuestions = party.Questions.Length;
+			Margin = new WidgetSpacing(3, 3, 3, 3);
+			MinHeight = 2 * Parameter.BorderRadius;
 
 			// Init Box
 			box = new VBox();
@@ -67,29 +66,31 @@ namespace QuizPresentator {
 			ctx.Stroke();
 		}
 
-		public void Update(List<bool> resultList, int resultOfParty, bool act) {
+		public void Update(Party party) {
 			// Color question labels
-			for (int i = 0; i < labels.Length-1; i++) {
-				// Already answered questions
-				if (i < resultList.Count) {
-					if (resultList[i]) {
+			// TODO maybe move active attribute also into question model?
+			bool markedActiveQuestion = false;
+			Question[] questions = party.Questions;
+			for (int i = 0; i < questions.Length; i++) {
+				Question question = questions[i];
+				if (question.HasResult) {
+					if (question.Result) {
 						labels[i].TextColor = Colors.DarkGreen;
 					} else {
 						labels[i].TextColor = Colors.DarkRed;
 					}
-				}
-				// Current question
-				else if (i == resultList.Count && act) {
-					labels[i].TextColor = Colors.DarkOrange;
-				}
-				// Coming questions
-				else {
-					labels[i].TextColor = Colors.Black;
+				} else {
+					if (party.Active && !markedActiveQuestion) {
+						labels[i].TextColor = Colors.DarkOrange;
+						markedActiveQuestion = true;
+					} else {
+						labels[i].TextColor = Colors.Black;
+					}
 				}
 			}
 
 			// Fill result
-			labels[nrOfQuestions].Text = string.Format(PointsPattern, resultOfParty);
+			labels[nrOfQuestions].Text = string.Format(PointsPattern, party.Points);
 
 			QueueDraw();
 		}

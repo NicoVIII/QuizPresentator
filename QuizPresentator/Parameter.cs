@@ -1,4 +1,4 @@
-﻿namespace QuizPresentator {
+namespace QuizPresenter {
 	public sealed class Parameter {
 		/// <summary>
 		/// The color of the background of used boxes.

@@ -126,6 +126,7 @@
     <Compile Include="QuestionComponentBox.cs" />
     <Compile Include="ResultBox.cs" />
     <Compile Include="ResultBoxes.cs" />
+    <Compile Include="ImageCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -156,6 +157,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="quiz.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="changelog.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -179,6 +181,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="images\lifelines\telephone_lifeline.svg" />
+    <None Include="images\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />

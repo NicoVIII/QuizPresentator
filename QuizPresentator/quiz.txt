@@ -1,3 +1,4 @@
 2
 Wie lautet der wissenschaftliche Name der Pflanzengattung "Eiche"? ; 3 ; Lacertidae ; Picidae ; Quercus ; Fagus
 Aus welchem Land stammt das älteste bekannte Rezept für Kartoffelchips ursprünglich? ; 1 ; England ; Deutschland ; Belgien ; USA
+Welcher dieser Fische ist der schnellste? ; 2 ; Hecht ; Blaue Marlin ; Lachs ; Segelfisch
