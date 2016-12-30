@@ -1,7 +1,8 @@
-﻿namespace QuizPresentator
+namespace QuizPresenter
 
-open QuizPresentator
-open QuizPresentator.Creation
+open QuizPresenter
+open QuizPresenter.Creation
+open System
 
 // Define object functions for use in C#
 type AnswerIndex =
@@ -20,10 +21,10 @@ module private ConvertAnswerIndex =
 
     let deconvert (index :AnswerIndex) =
         match index with
-        | AnswerIndex.A -> QuizPresentator.AnswerIndex.A
-        | AnswerIndex.B -> QuizPresentator.AnswerIndex.B
-        | AnswerIndex.C -> QuizPresentator.AnswerIndex.C
-        | AnswerIndex.D -> QuizPresentator.AnswerIndex.D
+        | AnswerIndex.A -> QuizPresenter.AnswerIndex.A
+        | AnswerIndex.B -> QuizPresenter.AnswerIndex.B
+        | AnswerIndex.C -> QuizPresenter.AnswerIndex.C
+        | AnswerIndex.D -> QuizPresenter.AnswerIndex.D
         // TODO error handling
         | _ -> invalidArg "index" ""
 
@@ -104,6 +105,7 @@ type Party(inner) =
 
 type Quiz (inner) =
     let mutable inner = inner
+    let random = new Random()
 
     member this.Parties =
         inner.parties
@@ -132,7 +134,7 @@ type Quiz (inner) =
     member this.UseLifeline lifeline =
         let lifeline' = ConvertLifeline.deconvert lifeline
         let activeParty = getActiveParty inner
-        let party' = useLifeline lifeline' activeParty
+        let party' = useLifeline lifeline' activeParty random
         inner <- {inner with parties = updateListFirst inner.parties activeParty party'}
 
     static member FromFile path =

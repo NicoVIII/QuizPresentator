@@ -1,8 +1,8 @@
-﻿using System.IO;
+using System.IO;
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	class ImageCanvas : Canvas {
 		Image image;
 		Rectangle rect;

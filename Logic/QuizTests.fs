@@ -1,8 +1,8 @@
-﻿namespace QuizPresentator
+namespace QuizPresenter
 
-open QuizPresentator.QuizPresentator
-open QuizPresentator.QuizPresentator.Creation
-open QuizPresentator.QuizFromFile
+open QuizPresenter.QuizPresenter
+open QuizPresenter.QuizPresenter.Creation
+open QuizPresenter.QuizFromFile
 open NUnit.Framework
 open FsUnit
 open FsCheck
@@ -44,11 +44,12 @@ type Test() =
 
     [<Test>]
     member x.``Lifeline is used correctly``() =
+        let random = new Random()
         let property party lifeline =
             let {lifelineInfos = infos} = party
             let info = lifelineInfo lifeline
             let party' = {party with lifelineInfos = info::infos}
-            let party'' = useLifeline lifeline party'
+            let party'' = useLifeline lifeline party' random
             party'' .=. {party with lifelineInfos = {info with used = true}::infos}
 
         Check.QuickThrowOnFailure property

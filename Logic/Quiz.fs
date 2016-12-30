@@ -1,6 +1,8 @@
-﻿namespace QuizPresentator
+namespace QuizPresenter
 
-module QuizPresentator =
+open System
+
+module QuizPresenter =
     type QuestionString = QuestionString of string
     type AnswerString = AnswerString of string
     type AnswerIndex = A | B | C | D
@@ -13,6 +15,34 @@ module QuizPresentator =
 
     type Party = {active: bool; questions: Question list; lifelineInfos: LifelineInfo list}
     type Quiz = {parties: Party list; lifelines: Lifeline list}
+
+    let nextAnswerIndex index =
+        match index with
+        | A -> B
+        | B -> C
+        | C -> D
+        | D -> A
+
+    let rec nextAnswerIndexN offset index =
+        if offset = 1 then
+            nextAnswerIndex index
+        else
+            nextAnswerIndex index
+            |> nextAnswerIndexN (offset-1)
+
+    let rec nextAnswerIndexNExcept offset skip index =
+        if offset = 1 then
+            let i = nextAnswerIndex index
+            if i = skip then
+                nextAnswerIndexNExcept offset skip i
+            else
+                i
+        else
+            let i = nextAnswerIndex index
+            if i = skip then
+                nextAnswerIndexNExcept offset skip i
+            else
+                nextAnswerIndexNExcept (offset-1) skip index
 
     let getActiveParty {parties = parties} =
         let filtered = List.filter (fun party -> party.active) parties
@@ -107,8 +137,16 @@ module QuizPresentator =
         else
             {quiz with parties = List.rev list}
 
+    let deleteAnswer question index =
+        let {answers = (a, b, c, d)} = question
+        match index with
+        | A -> {question with answers = (AnswerString "", b, c, d)}
+        | B -> {question with answers = (a, AnswerString "", c, d)}
+        | C -> {question with answers = (a, b, AnswerString "", d)}
+        | D -> {question with answers = (a, b, c, AnswerString "")}
+
     // TODO implement try-version of this
-    let useLifeline lifeline party =
+    let setLifelineUsed lifeline party =
         let infos = party.lifelineInfos
         let fold info lifelineInfo =
             match info with
@@ -124,6 +162,17 @@ module QuizPresentator =
         | Some info ->
             let infos' = updateListFirst infos info {info with used = true}
             {party with lifelineInfos = infos'}
+
+    let useLifeline lifeline party (random :Random) =
+        match lifeline.``type`` with
+        | FiftyFiftyLL ->
+            let question = getNextQuestionFromParty party
+            let stay = random.Next(1, 4)
+            let stay' = nextAnswerIndexNExcept stay question.Value.correct D
+            let question' = List.fold (fun q i -> if i = stay' || i = question.Value.correct then q else deleteAnswer q i) question.Value [A; B; C; D]
+            updateQuestion party question.Value question'
+        | JustImageLL -> // Nothing to do
+        setLifelineUsed lifeline party
 
     let chooseAnswer quiz answer =
         match getNextQuestionFromQuiz quiz with

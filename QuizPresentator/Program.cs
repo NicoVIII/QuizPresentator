@@ -1,7 +1,7 @@
 ﻿using System;
 using Xwt;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	class MainClass {
 		static Quiz quiz;
 		static QuestionBox questionBox;
@@ -20,9 +20,10 @@ namespace QuizPresentator {
 			END
 		}
 
-		private static void useLifeline(int index) {
+		static void useLifeline(int index) {
 			quiz.UseLifeline(quiz.Lifelines[index]);
 			resultBoxes.Update(quiz);
+			questionBox.Update(quiz);
 		}
 
 		[STAThread]

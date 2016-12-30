@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	public class ResultBox : Canvas {
 		// TODO think about using quiz locally
 		private VBox box;

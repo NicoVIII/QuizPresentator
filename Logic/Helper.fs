@@ -1,4 +1,4 @@
-﻿namespace QuizPresentator
+﻿namespace QuizPresenter
 
 [<AutoOpen>]
 module Helper =

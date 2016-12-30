@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xwt.WPF", "ThirdParty\XWT\X
 EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Logic", "Logic\Logic.fsproj", "{E4D6990D-384A-4147-BEA0-E765C175E5DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizPresentator", "QuizPresentator\QuizPresentator.csproj", "{4160A9F2-3A79-451D-85BB-3235D096FB4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizPresenter", "QuizPresentator\QuizPresenter.csproj", "{4160A9F2-3A79-451D-85BB-3235D096FB4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +110,6 @@ Global
 		$7.String = Exception
 		$0.VersionControlPolicy = $8
 		$8.inheritsSet = Mono
-		version = 0.0.0.0
+		version = 0.1.0.0
 	EndGlobalSection
 EndGlobal

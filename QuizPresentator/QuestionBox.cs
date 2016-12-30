@@ -1,8 +1,8 @@
-﻿using QuizPresentator;
+using QuizPresenter;
 using System;
 using Xwt;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	/// <summary>
 	/// Box, which contains Question plus all four answers.
 	/// </summary>
@@ -30,39 +30,6 @@ namespace QuizPresentator {
 			answersTable.Add(answerBoxD, left: 1, top: 1, hexpand: true);
 		}
 
-		/*public void FiftyFifty(Quiz quiz) {
-			Question question = null;
-			foreach (Question q in quiz.ActiveParty.Questions) {
-				if (!q.HasResult) {
-					question = q;
-					break;
-				}
-			}
-
-			// Get random wrong answer, which stays
-			Random r = new Random();
-			int stay = r.Next(3);
-			if (question.correct == AnswerIndex.C && stay == 2 || question.correct == AnswerIndex.D && stay == 2) {
-				answerBoxA.SetText("");
-				answerBoxB.SetText("");
-			} else if (question.correct == AnswerIndex.B && stay == 2 || question.correct == AnswerIndex.D && stay == 1) {
-				answerBoxA.SetText("");
-				answerBoxC.SetText("");
-			} else if (question.correct == AnswerIndex.B && stay == 1 || question.correct == AnswerIndex.C && stay == 1) {
-				answerBoxA.SetText("");
-				answerBoxD.SetText("");
-			} else if (question.correct == AnswerIndex.A && stay == 2 || question.correct == AnswerIndex.D && stay == 0) {
-				answerBoxB.SetText("");
-				answerBoxC.SetText("");
-			} else if (question.correct == AnswerIndex.A && stay == 1 || question.correct == AnswerIndex.C && stay == 0) {
-				answerBoxB.SetText("");
-				answerBoxD.SetText("");
-			} else if (question.correct == AnswerIndex.A && stay == 0 || question.correct == AnswerIndex.B && stay == 0) {
-				answerBoxC.SetText("");
-				answerBoxD.SetText("");
-			}
-		}*/
-
 		public void Update(Quiz quiz) {
 			// Reset color
 			answerBoxA.ResetColors();
@@ -79,7 +46,12 @@ namespace QuizPresentator {
 				answerBoxC.SetText("C: " + question.AnswerC);
 				answerBoxD.SetText("D: " + question.AnswerD);
 			} else {
-				Hide();
+				answerBoxA.Hide();
+				answerBoxB.Hide();
+				answerBoxC.Hide();
+				answerBoxD.Hide();
+				questionBox.label.Font = questionBox.label.Font.WithSize(10);
+				questionBox.SetText("QuizPresenter v0.1 by NicoVIII (http://github.com/NicoVIII/QuizPresenter)");
 			}
 		}
 

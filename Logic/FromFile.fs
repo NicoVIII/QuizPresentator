@@ -1,7 +1,7 @@
-﻿namespace QuizPresentator
+namespace QuizPresenter
 
-open QuizPresentator
-open QuizPresentator.Creation
+open QuizPresenter
+open QuizPresenter.Creation
 
 module QuizFromFile =
     let indexFromString string =

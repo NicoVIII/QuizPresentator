@@ -1,13 +1,13 @@
-﻿using Xwt;
+using Xwt;
 using Xwt.Drawing;
 using System;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	/// <summary>
 	/// Box, which is used to display the question or an answer
 	/// </summary>
 	public class QuestionComponentBox : Canvas {
-		Label label = new Label();
+		public Label label = new Label();
 		Color borderColor, backgroundColor;
 		bool boundsChanged = false;
 

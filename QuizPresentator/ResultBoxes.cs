@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Xwt;
 using Xwt.Drawing;
 
-namespace QuizPresentator {
+namespace QuizPresenter {
 	public class ResultBoxes : HBox {
 		VBox[] lifelineBoxes;
 		ResultBox[] boxes;
