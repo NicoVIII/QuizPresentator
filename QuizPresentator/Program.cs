@@ -32,35 +32,43 @@ namespace QuizPresenter {
 			// Initialize Quiz
 			quiz = Quiz.FromFile(Parameter.QuizFilePath);
 
+			string title = "Quizpresenter v0.1";
 			// Init Gui
-			#if WIN
-			Application.Initialize(ToolkitType.Wpf);
-			var mainWindow = new Window()
-			{
-				Title = "Quizpresentation",
+			Window mainWindow;
+			PlatformID id = Environment.OSVersion.Platform;
+			switch (id) {
+				case PlatformID.Win32NT:
+					Application.Initialize(ToolkitType.Wpf);
+					mainWindow = new Window()
+					{
+						Title = title,
 
-				Decorated = false,
-				FullScreen = true
-			};
-			#elif MAC
-			Application.Initialize(ToolkitType.Gtk);
-			var mainWindow = new Window()
-			{
-				Title = "Quizpresentation",
+						Decorated = false,
+						FullScreen = true
+					};
+					break;
+				case PlatformID.MacOSX:
+					Application.Initialize(ToolkitType.Gtk);
+					mainWindow = new Window()
+					{
+						Title = title,
 
-				Width = 800,
-				Height = 600
-			};
-			#else
-			Application.Initialize(ToolkitType.Gtk);
-			var mainWindow = new Window()
-			{
-				Title = "Quizpresentation",
+						Width = 800,
+						Height = 600
+					};
+					break;
+				//case PlatformID.Unix:
+				default:
+					Application.Initialize(ToolkitType.Gtk);
+					mainWindow = new Window()
+					{
+						Title = title,
 
-				Decorated = false,
-				FullScreen = true
-			};
-			#endif
+						Decorated = false,
+						FullScreen = true
+					};
+					break;
+			}
 
 			// Initialize question screen
 			Box outerContainer = new VBox();
