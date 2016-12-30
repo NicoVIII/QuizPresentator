@@ -79,7 +79,7 @@ namespace QuizPresentator {
 				answerBoxC.SetText("C: " + question.AnswerC);
 				answerBoxD.SetText("D: " + question.AnswerD);
 			} else {
-				this.Hide();
+				Hide();
 			}
 		}
 

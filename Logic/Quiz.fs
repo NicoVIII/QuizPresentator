@@ -47,7 +47,6 @@ module QuizPresentator =
                 ended
         List.fold fold true parties
 
-    // Flow
     let checkAnswer question answer =
         let {correct = correct} = question
         answer = correct
@@ -107,6 +106,23 @@ module QuizPresentator =
             | [] -> invalidOp ""
         else
             {quiz with parties = List.rev list}
+
+    // TODO implement try-version of this
+    let useLifeline lifeline party =
+        let infos = party.lifelineInfos
+        let fold info lifelineInfo =
+            match info with
+            | Some _ -> info
+            | None ->
+                if lifelineInfo.lifeline = lifeline && lifelineInfo.used = false then
+                    Some lifelineInfo
+                else
+                    None
+        match List.fold fold None infos with
+        | None -> invalidOp "This lifeline cannot be used, party has none of them left"
+        | Some info ->
+            let infos' = updateList infos info {info with used = false}
+            {party with lifelineInfos = infos'}
 
     let chooseAnswer quiz answer =
         match getNextQuestionFromQuiz quiz with

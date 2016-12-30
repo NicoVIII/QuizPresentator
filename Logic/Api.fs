@@ -10,15 +10,15 @@ type AnswerIndex =
     | C = 3
     | D = 4
 
-module private Convert =
-    let convertAnswerIndex index =
+module private ConvertAnswerIndex =
+    let convert index =
         match index with
         | A -> AnswerIndex.A
         | B -> AnswerIndex.B
         | C -> AnswerIndex.C
         | D -> AnswerIndex.D
 
-    let deconvertAnswerIndex (index :AnswerIndex) =
+    let deconvert (index :AnswerIndex) =
         match index with
         | AnswerIndex.A -> QuizPresentator.AnswerIndex.A
         | AnswerIndex.B -> QuizPresentator.AnswerIndex.B
@@ -28,53 +28,60 @@ module private Convert =
         | _ -> invalidArg "index" ""
 
 type Lifeline(inner) =
-    let inner = inner
+    member x._Internal = inner
 
-    member this.Name =
-        inner.name
-    member this.Type =
-        inner.``type``
+    member x.Name =
+        x._Internal.name
+    member x.Type =
+        x._Internal.``type``
+
+module private ConvertLifeline =
+    let convert lifeline =
+        new Lifeline(lifeline)
+
+    let deconvert (lifeline :Lifeline) =
+        lifeline._Internal
 
 type LifelineInfo(inner) =
-    let inner = inner
+    member x._Internal = inner
 
-    member this.Lifeline =
-        new Lifeline(inner.lifeline)
-    member this.Used =
-        inner.used
+    member x.Lifeline =
+        new Lifeline(x._Internal.lifeline)
+    member x.Used =
+        x._Internal.used
 
 type Question(inner) =
     let inner = inner
 
-    member this.Question =
+    member x.Question =
         let (QuestionString q) = inner.question
         q
-    member this.AnswerA =
+    member x.AnswerA =
         let (AnswerString a,_,_,_) = inner.answers
         a
-    member this.AnswerB =
+    member x.AnswerB =
         let (_,AnswerString b,_,_) = inner.answers
         b
-    member this.AnswerC =
+    member x.AnswerC =
         let (_,_,AnswerString c,_) = inner.answers
         c
-    member this.AnswerD =
+    member x.AnswerD =
         let (_,_,_,AnswerString d) = inner.answers
         d
 
-    member this.CheckAnswer answer =
-        Convert.deconvertAnswerIndex answer
+    member x.CheckAnswer answer =
+        ConvertAnswerIndex.deconvert answer
         |> checkAnswer inner
-    member this.HasResult =
+    member x.HasResult =
         not (inner.result = Result None)
-    member this.Result =
+    member x.Result =
         let {result = Result result} = inner
         match result with
         | None -> invalidOp "No result for this question."
         | Some result -> result
 
 type Party(inner) =
-    let inner = inner
+    let mutable inner = inner
 
     member this.Active =
         inner.active
@@ -94,9 +101,11 @@ type Party(inner) =
 
         inner.questions
         |> List.sumBy sum
+    member this.UseLifeline lifeline =
+        inner <- useLifeline (ConvertLifeline.deconvert lifeline) inner
 
 type Quiz (inner) =
-    let inner = inner
+    let mutable inner = inner
 
     member this.Parties =
         inner.parties
@@ -106,9 +115,9 @@ type Quiz (inner) =
     member this.ActiveParty =
         new Party(QuizPresentator.getActiveParty inner)
     member this.ChooseAnswer index =
-        Convert.deconvertAnswerIndex index
-        |> chooseAnswer inner
-        |> (fun args -> new Quiz(args))
+        inner <-
+            ConvertAnswerIndex.deconvert index
+            |> chooseAnswer inner
     member this.CurrentQuestion =
         match QuizPresentator.getNextQuestionFromQuiz inner with
         | Some q -> new Question(q)

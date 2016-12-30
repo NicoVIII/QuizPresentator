@@ -20,12 +20,12 @@ namespace QuizPresentator {
 			END
 		}
 
-		/*private static void useLifeline(int index) {
-			quiz = quiz.UseLifeline(quiz.ActiveParty, index);
+		private static void useLifeline(int index) {
+			quiz.ActiveParty.UseLifeline(quiz.Lifelines[index]);
 			// 50-50
-			if (quiz.Parties[quiz.activeParty].Lifelines[index].Type == Logic.LLType.FiftyFiftyLL) {
+			/*if (quiz.Parties[quiz.activeParty].Lifelines[index].Type == LLType.FiftyFiftyLL) {
 				questionBox.FiftyFifty(quiz);
-			}
+			}*/
 			resultBoxes.Update(quiz);
 		}//*/
 
@@ -128,7 +128,7 @@ namespace QuizPresentator {
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
-							/*case Key.q:
+							case Key.q:
 							case Key.Q:
 								useLifeline(0);
 								break;
@@ -144,10 +144,6 @@ namespace QuizPresentator {
 							case Key.R:
 								useLifeline(3);
 								break;
-							case Key.t:
-							case Key.T:
-								useLifeline(4);
-								break;*/
 						}
 						break;
 					case State.LOGGED_IN:
@@ -155,7 +151,7 @@ namespace QuizPresentator {
 						switch (e.Key) {
 							case Key.Space:
 								questionBox.ShowResult(choosenAnswer, quiz.CurrentQuestion.CheckAnswer(choosenAnswer));
-								quiz = quiz.ChooseAnswer(choosenAnswer);
+								quiz.ChooseAnswer(choosenAnswer);
 								state = State.RESULT;
 								break;
 							case Key.BackSpace:
