@@ -81,7 +81,7 @@ type Question(inner) =
         | Some result -> result
 
 type Party(inner) =
-    let mutable inner = inner
+    let inner = inner
 
     member this.Active =
         inner.active
@@ -101,8 +101,6 @@ type Party(inner) =
 
         inner.questions
         |> List.sumBy sum
-    member this.UseLifeline lifeline =
-        inner <- useLifeline (ConvertLifeline.deconvert lifeline) inner
 
 type Quiz (inner) =
     let mutable inner = inner
@@ -113,13 +111,13 @@ type Quiz (inner) =
         |> List.toArray
 
     member this.ActiveParty =
-        new Party(QuizPresentator.getActiveParty inner)
+        new Party(getActiveParty inner)
     member this.ChooseAnswer index =
         inner <-
             ConvertAnswerIndex.deconvert index
             |> chooseAnswer inner
     member this.CurrentQuestion =
-        match QuizPresentator.getNextQuestionFromQuiz inner with
+        match getNextQuestionFromQuiz inner with
         | Some q -> new Question(q)
         // TODO error handling
         | None -> invalidOp ""
@@ -131,6 +129,11 @@ type Quiz (inner) =
     member this.QuestionAmount =
         inner.parties
         |> List.sumBy (fun {questions = questions} -> List.length questions)
+    member this.UseLifeline lifeline =
+        let lifeline' = ConvertLifeline.deconvert lifeline
+        let activeParty = getActiveParty inner
+        let party' = useLifeline lifeline' activeParty
+        inner <- {inner with parties = updateListFirst inner.parties activeParty party'}
 
     static member FromFile path =
         new Quiz(QuizFromFile.initQuizFromFile path)

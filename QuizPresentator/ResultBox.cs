@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xwt;
 using Xwt.Drawing;
 
@@ -12,9 +11,9 @@ namespace QuizPresentator {
 		private readonly static string PointsPattern = "{0} Punkte";
 
 		public ResultBox(Party party) {
-			this.nrOfQuestions = party.Questions.Length;
-			this.Margin = new WidgetSpacing(3, 3, 3, 3);
-			this.MinHeight = 2 * Parameter.BorderRadius;
+			nrOfQuestions = party.Questions.Length;
+			Margin = new WidgetSpacing(3, 3, 3, 3);
+			MinHeight = 2 * Parameter.BorderRadius;
 
 			// Init Box
 			box = new VBox();

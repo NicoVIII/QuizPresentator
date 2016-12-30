@@ -21,7 +21,7 @@ type Test() =
         Check.QuickThrowOnFailure property
 
     [<Test>]
-    member x.``Test that question is correctly updated``() =
+    member x.``Question is correctly updated``() =
         let property party question question' =
             let party' = addQuestion party question
             let party'' = updateQuestion party' question question'
@@ -30,7 +30,7 @@ type Test() =
         Check.QuickThrowOnFailure property
 
     [<Test>]
-    member x.``Test that quiz is ended correctly``() =
+    member x.``Quiz state ended works``() =
         let property quiz =
             let fold2 ended question =
                 ended && not (question.result = Result None)
@@ -39,5 +39,16 @@ type Test() =
                 List.fold fold2 ended party.questions
             let ended = List.fold fold1 true quiz.parties
             isEnded quiz .=. ended
+
+        Check.QuickThrowOnFailure property
+
+    [<Test>]
+    member x.``Lifeline is used correctly``() =
+        let property party lifeline =
+            let {lifelineInfos = infos} = party
+            let info = lifelineInfo lifeline
+            let party' = {party with lifelineInfos = info::infos}
+            let party'' = useLifeline lifeline party'
+            party'' .=. {party with lifelineInfos = {info with used = true}::infos}
 
         Check.QuickThrowOnFailure property

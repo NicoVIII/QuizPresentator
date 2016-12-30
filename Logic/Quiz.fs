@@ -56,12 +56,12 @@ module QuizPresentator =
 
     let updateQuestion party question question'=
         let {questions = questions} = party
-        let questions' = updateList questions question question'
+        let questions' = updateListFirst questions question question'
         {party with questions = questions'}
 
     let updateParty quiz party party' =
         let {parties = parties} = quiz
-        let parties' = updateList parties party party'
+        let parties' = updateListFirst parties party party'
         {quiz with parties = parties'}
 
     let tryUpdateResultInQuiz result quiz =
@@ -119,9 +119,10 @@ module QuizPresentator =
                 else
                     None
         match List.fold fold None infos with
-        | None -> invalidOp "This lifeline cannot be used, party has none of them left"
+        // TODO decide if you want to throw an error or not
+        | None -> party//invalidOp "This lifeline cannot be used, party has none of them left"
         | Some info ->
-            let infos' = updateList infos info {info with used = false}
+            let infos' = updateListFirst infos info {info with used = true}
             {party with lifelineInfos = infos'}
 
     let chooseAnswer quiz answer =
@@ -141,13 +142,13 @@ module QuizPresentator =
             let {questions = questions} = party
             {party with questions = questions @ [question]}
         let addLifeline lifeline quiz =
-            let {parties = parties} = quiz
+            let {parties = parties; lifelines = lifelines} = quiz
             let map party =
                 let {lifelineInfos = info} = party
                 let lifelineInfo = lifelineInfo lifeline
-                {party with lifelineInfos = lifelineInfo::info}
+                {party with lifelineInfos = info @ [lifelineInfo]}
             let parties' = List.map map parties
-            {quiz with parties = parties'}
+            {quiz with parties = parties'; lifelines = lifelines @ [lifeline]}
         let addLifelines lifelines quiz =
             List.fold (fun quiz' ll -> addLifeline ll quiz') quiz lifelines
         let emptyParty active =

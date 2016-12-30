@@ -21,13 +21,9 @@ namespace QuizPresentator {
 		}
 
 		private static void useLifeline(int index) {
-			quiz.ActiveParty.UseLifeline(quiz.Lifelines[index]);
-			// 50-50
-			/*if (quiz.Parties[quiz.activeParty].Lifelines[index].Type == LLType.FiftyFiftyLL) {
-				questionBox.FiftyFifty(quiz);
-			}*/
+			quiz.UseLifeline(quiz.Lifelines[index]);
 			resultBoxes.Update(quiz);
-		}//*/
+		}
 
 		[STAThread]
 		static void Main(string[] args)
@@ -102,46 +98,38 @@ namespace QuizPresentator {
 						switch (e.Key) {
 							case Key.K1:
 							case Key.NumPad1:
-							case Key.F1:
 								choosenAnswer = AnswerIndex.A;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
 							case Key.K2:
 							case Key.NumPad2:
-							case Key.F2:
 								choosenAnswer = AnswerIndex.B;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
 							case Key.K3:
 							case Key.NumPad3:
-							case Key.F3:
 								choosenAnswer = AnswerIndex.C;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
 							case Key.K4:
 							case Key.NumPad4:
-							case Key.F4:
 								choosenAnswer = AnswerIndex.D;
 								questionBox.LogIn(choosenAnswer);
 								state = State.LOGGED_IN;
 								break;
-							case Key.q:
-							case Key.Q:
+							case Key.F1:
 								useLifeline(0);
 								break;
-							case Key.w:
-							case Key.W:
+							case Key.F2:
 								useLifeline(1);
 								break;
-							case Key.e:
-							case Key.E:
+							case Key.F3:
 								useLifeline(2);
 								break;
-							case Key.r:
-							case Key.R:
+							case Key.F4:
 								useLifeline(3);
 								break;
 						}
