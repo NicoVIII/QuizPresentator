@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug %28Unix%29</OutputPath>
-    <DefineConstants>DEBUG; MAC</DefineConstants>
+    <DefineConstants>DEBUG; </DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
       <CustomCommands>
@@ -31,7 +31,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (Unix)|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release %28Unix%29</OutputPath>
-    <DefineConstants>MAC</DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CustomCommands>
@@ -49,6 +49,55 @@
           <command>/bin/sh build/release.sh "${TargetDir}"</command>
           <externalConsole>True</externalConsole>
           <pauseExternalConsole>True</pauseExternalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug All (Windows)|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug All (Windows)</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>build\clean.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release All (Windows)|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release All (Windows)</OutputPath>
+    <DefineConstants></DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>build\release.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
+        </Command>
+        <Command>
+          <type>AfterClean</type>
+          <command>build\clean.bat "${TargetDir}"</command>
+          <externalConsole>True</externalConsole>
         </Command>
       </CustomCommands>
     </CustomCommands>

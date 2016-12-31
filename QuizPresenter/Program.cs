@@ -47,12 +47,15 @@ namespace QuizPresenter {
 						FullScreen = true
 					};
 					break;
+				// HACK Whyever Mac seems to be Win32S here
+				//case PlatformID.Win32S:
 				case PlatformID.MacOSX:
 					Application.Initialize(ToolkitType.Gtk);
 					mainWindow = new Window()
 					{
 						Title = title,
 
+						Decorated = true,
 						Width = 800,
 						Height = 600
 					};

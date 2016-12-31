@@ -1,5 +1,7 @@
 ::Libraries
 mkdir "%~1\lib"
+copy /y "%~2\ThirdParty\XWT\Xwt.Gtk\bin\Release\Xwt.Gtk.dll" "%~1\lib\"
+copy /y "%~2\ThirdParty\XWT\Xwt.Gtk\bin\Release\Xwt.Gtk.dll.config" "%~1\lib\"
 copy /y "%~2\ThirdParty\XWT\Xwt.WPF\bin\Release\Xwt.WPF.dll" "%~1\lib\"
 move /y "%~1\FSharp.Core.dll" "%~1\lib\"
 move /y "%~1\Xwt.dll" "%~1\lib\"
