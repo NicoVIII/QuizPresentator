@@ -1,2 +1,4 @@
 language: csharp
 solution: QuizPresenter.sln
+script:
+  - xbuild /p:Configuration=Release solution-name.sln
