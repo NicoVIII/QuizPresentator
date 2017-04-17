@@ -27,8 +27,8 @@ This are the six arguments which are necessary to define a question:
 6. Answer 4
 
 ## Development
-[![Build Status (Windows)](https://ci.appveyor.com/api/projects/status/3b9teq09cpx52k0w?svg=true)](https://ci.appveyor.com/project/NicoVIII/quizpresenter)
-[![Build Status (Unix)](https://travis-ci.org/NicoVIII/QuizPresenter.svg?branch=development)](https://travis-ci.org/NicoVIII/QuizPresenter)
+[![Build Status (Windows)](https://ci.appveyor.com/api/projects/status/3b9teq09cpx52k0w/branch/master?svg=true)](https://ci.appveyor.com/project/NicoVIII/quizpresenter/branch/master)
+[![Build Status (Unix)](https://travis-ci.org/NicoVIII/QuizPresenter.svg?branch=master)](https://travis-ci.org/NicoVIII/QuizPresenter)
 [![GitHub issues](https://img.shields.io/github/issues/NicoVIII/QuizPresenter.svg)](https://github.com/NicoVIII/QuizPresenter/issues)
 
 ### Versioning
