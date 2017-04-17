@@ -1,4 +1,8 @@
 # QuizPresentator
+[![GitHub release](https://img.shields.io/github/release/NicoVIII/QuizPresenter.svg)]()
+[![Github Releases](https://img.shields.io/github/downloads/NicoVIII/QuizPresenter/latest/total.svg)]()
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NicoVIII/QuizPresenter/master/LICENSE.txt)
+
 The goal of this project is to provide a tool to simply present a quiz. It should be a tool for a moderator of a quiz on a party or something similar.
 
 ## Prerequisites
@@ -23,6 +27,10 @@ This are the six arguments which are necessary to define a question:
 6. Answer 4
 
 ## Development
+[![Build Status (Windows)](https://ci.appveyor.com/api/projects/status/3b9teq09cpx52k0w?svg=true)](https://ci.appveyor.com/project/NicoVIII/quizpresenter)
+[![Build Status (Unix)](https://travis-ci.org/NicoVIII/QuizPresenter.svg?branch=development)](https://travis-ci.org/NicoVIII/QuizPresenter)
+[![GitHub issues](https://img.shields.io/github/issues/NicoVIII/QuizPresenter.svg)](https://github.com/NicoVIII/QuizPresenter/issues)
+
 ### Versioning
 I will try to stick to Semantic Versioning 2.0.0 (http://semver.org/spec/v2.0.0.html).
 
