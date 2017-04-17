@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug (Unix)</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4160A9F2-3A79-451D-85BB-3235D096FB4D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -9,98 +9,21 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ReleaseVersion>0.1.0.0</ReleaseVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug (Unix)|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug %28Unix%29</OutputPath>
-    <DefineConstants>DEBUG; </DefineConstants>
-    <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (Unix)|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release %28Unix%29</OutputPath>
-    <DefineConstants></DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>/bin/sh build/postbuild.sh "${TargetDir}" "${SolutionDir}"</command>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>/bin/sh build/clean.sh "${TargetDir}"</command>
-        </Command>
-        <Command>
-          <type>AfterBuild</type>
-          <command>/bin/sh build/release.sh "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-          <pauseExternalConsole>True</pauseExternalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug All (Windows)|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug All (Windows)</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>build\clean.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release All (Windows)|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release All (Windows)</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\postbuild.bat "${TargetDir}" "${SolutionDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterBuild</type>
-          <command>build\release.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-        <Command>
-          <type>AfterClean</type>
-          <command>build\clean.bat "${TargetDir}"</command>
-          <externalConsole>True</externalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -113,12 +36,18 @@
     <Compile Include="ImageCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Logic">
       <HintPath>..\Logic\bin\Debug\Logic.dll</HintPath>
+    </Reference>
+    <Reference Include="Xwt">
+      <HintPath>lib\Xwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\packages\FSharp.Core.4.1.12\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -126,20 +55,8 @@
       <Project>{E4D6990D-384A-4147-BEA0-E765C175E5DE}</Project>
       <Name>Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\XWT\Xwt\Xwt.csproj">
-      <Project>{92494904-35FA-4DC9-BDE9-3A3E87AC49D3}</Project>
-      <Name>Xwt</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\LICENSE.txt">
-      <Link>LICENSE.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\ThirdParty\XWT\LICENSE.txt">
-      <Link>LICENSE_XWT.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="quiz.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -168,15 +85,41 @@
     <None Include="images\2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="build\clean.bat" />
-    <None Include="build\clean.sh" />
-    <None Include="build\postbuild.bat" />
-    <None Include="build\postbuild.sh" />
-    <None Include="build\release.bat" />
-    <None Include="build\release.sh" />
+    <None Include="lib\Xwt.Gtk.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="lib\Xwt.Gtk.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Link>licenses\LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\ThirdParty\XWT\LICENSE.txt">
+      <Link>licenses\LICENSE_XWT.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="any\netstandard1.6\FSharp.Core.sigdata" />
+    <None Include="any\netstandard1.6\FSharp.Core.optdata" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
+    <Folder Include="licenses\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+	<ItemGroup>
+	  <LibFiles Include="$(OutputPath)/*.dll" />
+	</ItemGroup>
+	<Copy SourceFiles="@(LibFiles)" DestinationFolder="$(OutputPath)/lib" />
+	<Delete Files="@(LibFiles)" />
+  </Target>
+  <Target Name="AfterClean">
+	<ItemGroup>
+	  <LibFiles Include="$(OutputPath)/lib/*.dll" />
+	</ItemGroup>
+	<Delete Files="@(LibFiles)" />
+	<RemoveDir Directories="$(OutputPath)/images;$(OutputPath)/lib;$(OutputPath)/licenses" />
+  </Target>
 </Project>

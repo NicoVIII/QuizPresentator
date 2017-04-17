@@ -8,6 +8,7 @@ open FsUnit
 open FsCheck
 open System
 
+(*
 [<TestFixture>]
 type Test() = 
     let (.=.) left right = left = right |@ sprintf "%A = %A" left right
@@ -52,4 +53,4 @@ type Test() =
             let party'' = setLifelineUsed lifeline party'
             party'' .=. {party with lifelineInfos = {info with used = true}::infos}
 
-        Check.QuickThrowOnFailure property
+        Check.QuickThrowOnFailure property*)
