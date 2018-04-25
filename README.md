@@ -1,4 +1,5 @@
 # QuizPresentator
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 [![GitHub release](https://img.shields.io/github/release/NicoVIII/QuizPresenter.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/NicoVIII/QuizPresenter/latest/total.svg)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NicoVIII/QuizPresenter/master/LICENSE.txt)
