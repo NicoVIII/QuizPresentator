@@ -1,0 +1,11 @@
+image:
+  file: .devcontainer/Dockerfile
+
+tasks:
+  - init: echo 'init script'
+
+vscode:
+  extensions:
+    - editorconfig.editorconfig
+    - muhammad-sammy.csharp
+    - ionide.ionide-fsharp
