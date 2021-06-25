@@ -1,29 +1,8 @@
-﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4160A9F2-3A79-451D-85BB-3235D096FB4D}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>QuizPresenter</RootNamespace>
-    <AssemblyName>QuizPresenter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ReleaseVersion>0.1.0.0</ReleaseVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <DefineConstants></DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -36,90 +15,7 @@
     <Compile Include="ImageCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Logic">
-      <HintPath>..\Logic\bin\Debug\Logic.dll</HintPath>
-    </Reference>
-    <Reference Include="Xwt">
-      <HintPath>lib\Xwt.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.4.1.12\lib\net45\FSharp.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Logic\Logic.fsproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.fsproj">
-      <Project>{E4D6990D-384A-4147-BEA0-E765C175E5DE}</Project>
-      <Name>Logic</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="quiz.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="changelog.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="app.config" />
-    <None Include="images\example.png">
-    </None>
-    <None Include="images\lifelines\50_50_lifeline.svg" />
-    <None Include="images\lifelines\additional_lifeline.svg" />
-    <None Include="images\lifelines\ask_the_audience_lifeline.svg" />
-    <None Include="images\lifelines\50_50_lifeline.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="images\lifelines\additional_lifeline.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="images\lifelines\ask_the_audience_lifeline.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="images\lifelines\telephone_lifeline.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="images\lifelines\telephone_lifeline.svg" />
-    <None Include="images\2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="lib\Xwt.Gtk.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="lib\Xwt.Gtk.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\LICENSE.txt">
-      <Link>licenses\LICENSE.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\ThirdParty\XWT\LICENSE.txt">
-      <Link>licenses\LICENSE_XWT.txt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-    <None Include="any\netstandard1.6\FSharp.Core.sigdata" />
-    <None Include="any\netstandard1.6\FSharp.Core.optdata" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\" />
-    <Folder Include="licenses\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
-	<ItemGroup>
-	  <LibFiles Include="$(OutputPath)/*.dll" />
-	</ItemGroup>
-	<Copy SourceFiles="@(LibFiles)" DestinationFolder="$(OutputPath)/lib" />
-	<Delete Files="@(LibFiles)" />
-  </Target>
-  <Target Name="AfterClean">
-	<ItemGroup>
-	  <LibFiles Include="$(OutputPath)/lib/*.dll" />
-	</ItemGroup>
-	<Delete Files="@(LibFiles)" />
-	<RemoveDir Directories="$(OutputPath)/images;$(OutputPath)/lib;$(OutputPath)/licenses" />
-  </Target>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

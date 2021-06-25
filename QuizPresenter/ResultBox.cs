@@ -1,6 +1,5 @@
+using Gtk;
 using System;
-using Xwt;
-using Xwt.Drawing;
 
 namespace QuizPresenter {
 	public class ResultBox : Canvas {
